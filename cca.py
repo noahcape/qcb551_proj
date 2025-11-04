@@ -6,7 +6,9 @@ from sklearn.cross_decomposition import CCA
 import matplotlib.patches as mpatches
 import pandas as pd
 import pickle
-import os 
+import os
+
+from sklearn.discriminant_analysis import StandardScaler 
 
 
 def apply_pca_to_embeddings(embeddings_dict, n_components=10):
@@ -21,16 +23,27 @@ def apply_pca_to_embeddings(embeddings_dict, n_components=10):
     return pca_embeddings
 
 
-def compute_similarity(emb1, emb2):
+def compute_similarity(emb1, emb2, n_components=None, score = False):
     """
     Compute CCA similarity between two embeddings.
     how much two different representations of the same entities capture the same underlying structure
     """
-    n_components = min(emb1.shape[1], emb2.shape[1])
+    if n_components is None:
+        n_components = min(emb1.shape[1], emb2.shape[1])
+
+    X = StandardScaler().fit_transform(emb1)
+    Y = StandardScaler().fit_transform(emb2)
+    
     cca = CCA(n_components=n_components)
-    cca.fit(emb1, emb2)
-    # X_c, Y_c = cca.transform(emb1, emb2)
-    return cca.score(emb1, emb2)
+    cca.fit(X, Y)
+
+    if score:
+        return cca.score(X, Y)
+    
+    X_c, Y_c = cca.transform(X, Y)
+    corrs = [np.corrcoef(X_c[:, i], Y_c[:, i])[0, 1] for i in range(X_c.shape[1])]
+    corrs = np.clip(np.abs(corrs), 0.0, 1.0)
+    return float(np.mean(corrs))
 
 
 if __name__ == "__main__":
