@@ -46,61 +46,6 @@ def compute_similarity(emb1, emb2, n_components=None, score = False):
     return float(np.mean(corrs))
 
 
-if __name__ == "__main__":
-
-    # need to modify once we have the embeddings ... 
-    # but generally create a dict of embedding name and the embedding itself
-    EMBEDDING_PATH = "embeddings/"
-    with open(os.path.join(EMBEDDING_PATH, "embeddings_dict.pkl"), "rb") as f:
-        embeddings_aligned = pickle.load(f)
-
-    embeddings_np = {
-        name: np.array(embedding) for name, embedding in embeddings_aligned.items()
-    }
-    embeddings_np_pca = apply_pca_to_embeddings(
-        embeddings_np, n_components=10
-    )
-
-    embedding_names = sorted(embeddings_np_pca.keys())
-    n_embeddings = len(embedding_names)
-    similarity_matrix = np.zeros((n_embeddings, n_embeddings))
-
-    for i, name_i in enumerate(embedding_names):
-        print(name_i)
-        for j, name_j in enumerate(embedding_names[i:], start=i):
-            sim = compute_similarity(
-                embeddings_np_pca[name_i], embeddings_np_pca[name_j]
-            )
-            similarity_matrix[i, j] = sim
-            similarity_matrix[j, i] = sim
-
-    sim_df = pd.DataFrame(similarity_matrix, index=embedding_names, columns=embedding_names)
-
-
-    g = sns.clustermap(
-        sim_df,
-        annot=False,
-        cmap="vlag",
-        fmt=".4f",
-        square=True,
-        linewidths=0,
-        cbar_kws={"shrink": 0.5},
-        figsize=(20, 20),
-    )
-
-    g.fig.suptitle("Canonical Correlation Analysis Scores", fontsize=16)
-
-    plt.setp(g.ax_heatmap.get_xticklabels(), rotation=90, ha="right", fontsize=20)
-    plt.setp(g.ax_heatmap.get_yticklabels(), rotation=0, fontsize=20)
-
-
-    plt.savefig("cca_heatmap.pdf", format="pdf", bbox_inches="tight")
-
-    plt.show()
-
-
-## i also have code for pearson correlation between embeddings, but it's more convoluted...
-## cca is easier to interpret... 
 def embd_weighted_pearson_jaccard(embeddings_dict):
     """
     Compute a weighted Jaccard similarity between protein protein correlation
@@ -147,3 +92,31 @@ def embd_weighted_pearson_jaccard(embeddings_dict):
             sim_mat[i, j] = sim_mat[j, i] = wj
 
     return pd.DataFrame(sim_mat, index=names, columns=names)
+
+
+
+def compute_similarity_matrix(embeddings_dict, n_pca_components = 10, cca_score = False):
+    """
+    embeddings_dict: dict of {name: 2D np.array (n_entities x embedding_dim)}
+    """
+    # Ensure all arrays have same number of rows (entities)
+    lengths = {name: arr.shape[0] for name, arr in embeddings_dict.items()}
+    if len(set(lengths.values())) != 1:
+        raise ValueError(f"Embeddings have different numbers of entities: {lengths}")
+
+    # Apply PCA to each embedding (keeps entities aligned)
+    pca_embs = apply_pca_to_embeddings(embeddings_dict, n_components=n_pca_components)
+
+    names = sorted(pca_embs.keys())
+    n = len(names)
+    sim_mat = np.zeros((n, n), dtype=float)
+
+    for i, ni in enumerate(names):
+        Xi = pca_embs[ni]
+        for j, nj in enumerate(names[i:], start=i):
+            Xj = pca_embs[nj]
+            sim = compute_similarity(Xi, Xj, n_components=None, score=cca_score)
+            sim_mat[i, j] = sim_mat[j, i] = sim
+
+    sim_df = pd.DataFrame(sim_mat, index=names, columns=names)
+    return sim_df
