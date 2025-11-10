@@ -99,12 +99,10 @@ def compute_similarity_matrix(embeddings_dict, n_pca_components = 10, cca_score 
     """
     embeddings_dict: dict of {name: 2D np.array (n_entities x embedding_dim)}
     """
-    # Ensure all arrays have same number of rows (entities)
     lengths = {name: arr.shape[0] for name, arr in embeddings_dict.items()}
     if len(set(lengths.values())) != 1:
         raise ValueError(f"Embeddings have different numbers of entities: {lengths}")
 
-    # Apply PCA to each embedding (keeps entities aligned)
     pca_embs = apply_pca_to_embeddings(embeddings_dict, n_components=n_pca_components)
 
     names = sorted(pca_embs.keys())
