@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import umap
 
-SCOPe_fname = "./astral-scopedom-seqres-gd-all-2.08-stable.fa"
+SCOPe_fname = "astral-scopedom-seqres-gd-sel-gs-bib-95-2.08.fa" #"./astral-scopedom-seqres-gd-all-2.08-stable.fa"
 
 
 class Clustering(Enum):
@@ -89,7 +89,8 @@ def bow_embedding(p):
     return embedding
 
 
-def parse_SCOPe_file(embedding_func, outname):
+def parse_SCOPe_file(embedding_func, outname, verbose=True):
+    pos = 0
     with open(f"./{outname}", "w") as out_file:
         out_file.write("name,type,sequence,embedding\n")
         with open(SCOPe_fname, "r") as in_file:
@@ -99,6 +100,9 @@ def parse_SCOPe_file(embedding_func, outname):
             for line in in_file:
                 line = line.strip()
                 if line.startswith(">"):
+                    pos += 1
+                    if verbose and pos % 1000 == 0:
+                        print(pos)
                     # If we already have a previous sequence, process it
                     if p and name and s_type:
                         embedding = embedding_func(p.upper())
