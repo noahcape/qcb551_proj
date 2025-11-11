@@ -48,6 +48,8 @@ def compute_similarity(emb1, emb2, n_components=None, score = False):
 
 def embd_weighted_pearson_jaccard(embeddings_dict):
     """
+    an alternative to CCA if we want, prob don't need this function 
+    
     Compute a weighted Jaccard similarity between protein protein correlation
     structures across multiple embeddings.
     returns square similarity matrix (names x names) with weighted Jaccard scores or correlations.

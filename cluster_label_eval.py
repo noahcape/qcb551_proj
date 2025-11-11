@@ -139,4 +139,4 @@ def clustering_evaluation(cluster_labels, true_labels, plot_heatmap=True):
 #     "multidomain protein", "alpha protein"
 # ]
 
-# res = clustering_evaluation(cluster_labels, true_labels)
+# res = clustering_evaluation(cluster_labels, true_labels) 
