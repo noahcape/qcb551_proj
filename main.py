@@ -12,7 +12,7 @@ import seaborn as sns
 from cluster_label_eval import clustering_evaluation
 
 
-SCOPe_fname = "./astral-scopedom-seqres-gd-all-2.08-stable.fa"  # "./astral-scopedom-seqres-gd-all-2.08-stable.fa"
+SCOPe_fname = "./astral-scopedom-seqres-gd-sel-gs-bib-95-2.08.fa"  # "./astral-scopedom-seqres-gd-all-2.08-stable.fa"
 
 
 class Clustering(Enum):
@@ -48,7 +48,7 @@ def visualize_similarity_matrix(m, sim_type):
         m,
         mask=mask,
         cmap="viridis",
-        annot=True,
+        # annot=True,
         square=True,
         cbar_kws={"label": "Similarity"},
     )
@@ -87,10 +87,7 @@ def cluster_data(data, similarity, clustering, n=None):
     similarity_matrix = create_similarity_matrix(data, similarity)
     clusters = cluster(similarity_matrix, clustering, n)
 
-    return (
-        pd.DataFrame(data={"embedding": data, "clusters": clusters}),
-        similarity_matrix,
-    )
+    return data, clusters, similarity_matrix
 
 
 aa_ordering = [
@@ -228,11 +225,12 @@ def plot_umap_structural(df):
 
 """
 Perform clustering and compare the clustering to the true labels
+n is the number of expected clusters for structural predictions is 7
 Given the data file, must be csv with headers "type" and "embedding" at least to properly parse
 """
 
 
-def cluster_compare(data_file):
+def cluster_compare(data_file, n):
     sim_clust = [
         (Similarity.Cosine, Clustering.Hierarchical),
         (Similarity.Cosine, Clustering.Kmeans),
@@ -246,9 +244,23 @@ def cluster_compare(data_file):
     ]
 
     for similarity, clustering in sim_clust:
-        df = parse_embeddings_and_type(data_file)
         embeddings = np.vstack(df["embedding"].to_numpy())
-        (c_df, _) = cluster_data(embeddings, similarity, clustering)
-        clusters = np.vstack(c_df["clusters"])
-        labels = np.vstack(df["type"])
+        (_data, clusters, _sim_m) = cluster_data(embeddings, similarity, clustering, n)
+        labels = df["type"].to_numpy()
         clustering_evaluation(clusters, labels)
+
+
+"""
+Example with BOW
+"""
+if __name__ == "__main__":
+    # parse_SCOPe_file(bow_embedding, "./bag_of_words.csv")
+    n = 100
+    df = parse_embeddings_and_type("./bag_of_words.csv")
+    df = df.sample(frac=1, random_state=42).reset_index(drop=True)
+    embeddings = np.vstack(df["embedding"].to_numpy())[0:n]
+    (data, clusters, sim_m) = cluster_data(
+        embeddings, Similarity.Geodesic, Clustering.Hierarchical
+    )
+    labels = df["type"].to_numpy()[0:n]
+    clustering_evaluation(clusters, labels)
