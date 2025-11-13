@@ -7,8 +7,12 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import umap
+import seaborn as sns
 
-SCOPe_fname = "astral-scopedom-seqres-gd-sel-gs-bib-95-2.08.fa" #"./astral-scopedom-seqres-gd-all-2.08-stable.fa"
+from cluster_label_eval import clustering_evaluation
+
+
+SCOPe_fname = "./astral-scopedom-seqres-gd-all-2.08-stable.fa"  # "./astral-scopedom-seqres-gd-all-2.08-stable.fa"
 
 
 class Clustering(Enum):
@@ -23,7 +27,7 @@ class Similarity(Enum):
     Geodesic = "isomap"
 
 
-def create_similarity_matrix(similarity, data):
+def create_similarity_matrix(data, similarity):
     if similarity == Similarity.Geodesic:
         isomap = sk.manifold.Isomap(n_neighbors=3, n_components=2)
         isomap.fit_transform(data)
@@ -32,6 +36,27 @@ def create_similarity_matrix(similarity, data):
         return sc.spatial.distance.squareform(
             sc.spatial.distance.pdist(data, metric=similarity.value)
         )
+
+
+# Turn a similarity matrix into a heatmap
+def visualize_similarity_matrix(m, sim_type):
+    # Create a mask for the lower triangle
+    mask = np.tril(np.ones_like(m, dtype=bool))
+
+    # Plot only the upper triangle
+    sns.heatmap(
+        m,
+        mask=mask,
+        cmap="viridis",
+        annot=True,
+        square=True,
+        cbar_kws={"label": "Similarity"},
+    )
+
+    plt.title(f"Similarity Matrix {sim_type}")
+    plt.xlabel("Proteins")
+    plt.ylabel("Proteins")
+    plt.show()
 
 
 def cluster(similarity_m, clustering, n):
@@ -50,6 +75,22 @@ def cluster(similarity_m, clustering, n):
             return sk.cluster.KMeans(
                 n_clusters=n, random_state=0, n_init="auto"
             ).fit_predict(similarity_m)
+
+
+"""
+Take as input data, true labels type of similarity and clustering technique to use and n for certain clustering
+and produce a data frame with the embeddings, clusters along with the similarity_matrix
+"""
+
+
+def cluster_data(data, similarity, clustering, n=None):
+    similarity_matrix = create_similarity_matrix(data, similarity)
+    clusters = cluster(similarity_matrix, clustering, n)
+
+    return (
+        pd.DataFrame(data={"embedding": data, "clusters": clusters}),
+        similarity_matrix,
+    )
 
 
 aa_ordering = [
@@ -106,7 +147,7 @@ def parse_SCOPe_file(embedding_func, outname, verbose=True):
                     # If we already have a previous sequence, process it
                     if p and name and s_type:
                         embedding = embedding_func(p.upper())
-                        out_file.write(f'{name},{s_type},{p},"{embedding}"\n')
+                        out_file.write(f'{name},{s_type[0]},{p},"{embedding}"\n')
 
                     # Start a new sequence
                     parts = line.split()
@@ -119,15 +160,17 @@ def parse_SCOPe_file(embedding_func, outname, verbose=True):
             # Handle last sequence (EOF)
             if p and name and s_type:
                 embedding = embedding_func(p.upper())
-                out_file.write(f'{name},{s_type},{p},"{embedding}"\n')
+                out_file.write(f'{name},{s_type[0]},{p},"{embedding}"\n')
 
 
 def parse_embeddings_and_type(in_file):
-    return pd.read_csv(
+    df = pd.read_csv(
         in_file,
         converters={"embedding": ast.literal_eval},
         usecols=["type", "embedding"],
     )
+
+    return df
 
 
 def plot_umap_structural(df):
@@ -142,7 +185,6 @@ def plot_umap_structural(df):
     }
 
     # Extract class and embeddings
-    df["class"] = df["type"].str[0]
     X = np.array(df["embedding"].tolist(), dtype=np.float32)
 
     # Standardize embeddings
@@ -160,12 +202,12 @@ def plot_umap_structural(df):
 
     # Plot
     plt.figure(figsize=(9, 7))
-    unique_classes = sorted(df["class"].unique())
+    unique_classes = sorted(df["type"].unique())
     colors = plt.cm.tab10(np.linspace(0, 1, len(unique_classes)))
 
     for i, cls in enumerate(unique_classes):
-        idx = df["class"] == cls
-        label = scope_classes.get(cls, f"Class {cls}")
+        idx = df["type"] == cls
+        label = scope_classes.get(df["type"])
         plt.scatter(
             embedding_2d[idx, 0],
             embedding_2d[idx, 1],
@@ -182,3 +224,31 @@ def plot_umap_structural(df):
     plt.legend(title="SCOPe Class", fontsize=9)
     plt.tight_layout()
     plt.show()
+
+
+"""
+Perform clustering and compare the clustering to the true labels
+Given the data file, must be csv with headers "type" and "embedding" at least to properly parse
+"""
+
+
+def cluster_compare(data_file):
+    sim_clust = [
+        (Similarity.Cosine, Clustering.Hierarchical),
+        (Similarity.Cosine, Clustering.Kmeans),
+        (Similarity.Cosine, Clustering.Spectral),
+        (Similarity.Euclidean, Clustering.Hierarchical),
+        (Similarity.Euclidean, Clustering.Kmeans),
+        (Similarity.Euclidean, Clustering.Spectral),
+        (Similarity.Geodesic, Clustering.Hierarchical),
+        (Similarity.Geodesic, Clustering.Kmeans),
+        (Similarity.Geodesic, Clustering.Spectral),
+    ]
+
+    for similarity, clustering in sim_clust:
+        df = parse_embeddings_and_type(data_file)
+        embeddings = np.vstack(df["embedding"].to_numpy())
+        (c_df, _) = cluster_data(embeddings, similarity, clustering)
+        clusters = np.vstack(c_df["clusters"])
+        labels = np.vstack(df["type"])
+        clustering_evaluation(clusters, labels)

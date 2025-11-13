@@ -1,5 +1,14 @@
 import pytest
-from main import Clustering, Similarity, create_similarity_matrix, cluster, bow_embedding
+import numpy as np
+from main import (
+    Clustering,
+    Similarity,
+    create_similarity_matrix,
+    cluster,
+    bow_embedding,
+    cluster_data,
+    visualize_similarity_matrix,
+)
 
 example_df = [
     [0.12, -0.48, 0.30, 0.89, -0.22, 0.05, 0.61, -0.73],  # MTEITAAMVKELRESTGAGM
@@ -26,12 +35,18 @@ example_df = [
 )
 def test_all(similarity, clustering):
     print(similarity, clustering)
-    sim_m = create_similarity_matrix(similarity, example_df)
+    sim_m = create_similarity_matrix(example_df, similarity)
     clusters = cluster(sim_m, clustering, 2)
     print(clusters)
 
+
+def test_clustering():
+    df = cluster_data(example_df, Similarity.Cosine, Clustering.Hierarchical, 2)
+    print(df)
+
+
 def test_bow():
     p = "MTEITAAMVKELRESTGAGM"
-    expected = [3,1,0,0,0,0,3,2,0,1,1,1,3,0,0,1,3,0,0,1]
+    expected = [3, 1, 0, 0, 0, 0, 3, 2, 0, 1, 1, 1, 3, 0, 0, 1, 3, 0, 0, 1]
     embedding = bow_embedding(p)
     assert expected == embedding
