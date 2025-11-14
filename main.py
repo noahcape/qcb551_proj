@@ -5,10 +5,11 @@ import ast
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import umap
 import seaborn as sns
-
+from sklearn.decomposition import PCA
 from cluster_label_eval import clustering_evaluation
 
 
@@ -67,7 +68,7 @@ def cluster(similarity_m, clustering, n):
             )
             return spectral.fit_predict(similarity_m)
         case Clustering.Hierarchical:
-            clusters = sk.cluster.AgglomerativeClustering(linkage="average").fit(
+            clusters = sk.cluster.AgglomerativeClustering(n_clusters=n, linkage="average").fit(
                 similarity_m
             )
             return clusters.labels_
@@ -230,37 +231,48 @@ Given the data file, must be csv with headers "type" and "embedding" at least to
 """
 
 
-def cluster_compare(data_file, n):
+def cluster_compare(df, n, embedding_type):
     sim_clust = [
-        (Similarity.Cosine, Clustering.Hierarchical),
+        # (Similarity.Cosine, Clustering.Hierarchical),
         (Similarity.Cosine, Clustering.Kmeans),
         (Similarity.Cosine, Clustering.Spectral),
-        (Similarity.Euclidean, Clustering.Hierarchical),
+        # (Similarity.Euclidean, Clustering.Hierarchical),
         (Similarity.Euclidean, Clustering.Kmeans),
         (Similarity.Euclidean, Clustering.Spectral),
-        (Similarity.Geodesic, Clustering.Hierarchical),
+        # (Similarity.Geodesic, Clustering.Hierarchical),
         (Similarity.Geodesic, Clustering.Kmeans),
         (Similarity.Geodesic, Clustering.Spectral),
     ]
 
+    embeddings = np.vstack(df["embedding"].to_numpy())
+    # embeddings = PCA(n_components=2).fit_transform(embeddings)
     for similarity, clustering in sim_clust:
-        embeddings = np.vstack(df["embedding"].to_numpy())
+        np.save(f'./data/{embedding_type}_{similarity}_{clustering}_embeddings.npy', embeddings)
         (_data, clusters, _sim_m) = cluster_data(embeddings, similarity, clustering, n)
         labels = df["type"].to_numpy()
-        clustering_evaluation(clusters, labels)
+        clustering_evaluation(f'{similarity}_{clustering}', clusters, labels)
+
+        # save cluster labels
+        np.save(f'./data/{embedding_type}_{similarity}_{clustering}_clusterlabels.npy', clusters)
 
 
 """
 Example with BOW
 """
 if __name__ == "__main__":
-    # parse_SCOPe_file(bow_embedding, "./bag_of_words.csv")
-    n = 100
-    df = parse_embeddings_and_type("./bag_of_words.csv")
-    df = df.sample(frac=1, random_state=42).reset_index(drop=True)
-    embeddings = np.vstack(df["embedding"].to_numpy())[0:n]
-    (data, clusters, sim_m) = cluster_data(
-        embeddings, Similarity.Geodesic, Clustering.Hierarchical
-    )
-    labels = df["type"].to_numpy()[0:n]
-    clustering_evaluation(clusters, labels)
+    for embedding_name in ['bag_of_words', 'esm2_8M_embeddings', 'esm2_35M_embeddings', 'esm2_150M_embeddings', 'prot_bert_embeddings']:
+        print(embedding_name)
+        df = parse_embeddings_and_type(f"/home/jc4587/qcb551_proj/embeddings/{embedding_name}.csv")
+        # Fix label collumn for esm embeddings
+        if 'esm' in embedding_name or 'prot_bert' in embedding_name:
+            df['type'] = [s[0] for s in df['type'].tolist()]
+        print(df['type'].value_counts())
+
+        N_PER_CLASS = 200 
+        # "Stratified fixed-size sample"
+        sampled_df = (
+            df.groupby("type", group_keys=False)
+            .apply(lambda x: x.sample(n=min(N_PER_CLASS, len(x)), random_state=42))
+            .reset_index(drop=True)
+        )
+        cluster_compare(sampled_df, 7, embedding_name)

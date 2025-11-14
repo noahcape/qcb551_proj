@@ -11,7 +11,7 @@ from scipy.optimize import linear_sum_assignment
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def clustering_evaluation(cluster_labels, true_labels, plot_heatmap=True):
+def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True):
     """
     cluster_labels: list (predicted cluster ids; numeric or str)
     true_labels: list (true labels; can be strings)
@@ -75,6 +75,7 @@ def clustering_evaluation(cluster_labels, true_labels, plot_heatmap=True):
         "support": support
     }, index=true_classes)
 
+    print(method)
     print(f"ARI = {ari:.4f}")
     print(f"NMI = {nmi:.4f}")
     print(f"Jaccard (macro) = {jacc_macro:.4f}")
@@ -104,7 +105,8 @@ def clustering_evaluation(cluster_labels, true_labels, plot_heatmap=True):
         plt.ylabel("True label")
         plt.xlabel("Mapped predicted label")
         plt.tight_layout()
-        plt.show()
+        plt.savefig(f"./data/confusion_matrix_{method}.png", dpi=600)
+        plt.close()
 
         plt.figure(figsize=(max(6, len(pred_classes)*0.5), max(4, len(true_classes)*0.5)))
         sns.heatmap(jacc_pairwise_df, annot=True, fmt=".3f", cmap="viridis")
@@ -112,7 +114,8 @@ def clustering_evaluation(cluster_labels, true_labels, plot_heatmap=True):
         plt.ylabel("True label")
         plt.xlabel("Predicted cluster")
         plt.tight_layout()
-        plt.show()
+        plt.savefig(f"./data/pairwise_jaccard_{method}.png", dpi=600)
+        plt.close()
 
     results = {
         "ARI": ari,
