@@ -1,6 +1,7 @@
 from main import parse_SCOPe_file
 from transformers import EsmTokenizer, EsmModel, AutoTokenizer, AutoModel, BertTokenizer, BertModel
 import torch
+import pandas as pd
 
 # NOTE: I renamed the csv's afterwards to remove t_ (# layers) and UR50D (training dataset)
 # we typically refer to the esm2 instances just by _M (# of params)
@@ -37,4 +38,15 @@ def plm_embed(model_name):
     return embed_fn
 
 if __name__ == "__main__":
-    parse_SCOPe_file(plm_embed(model_name), f'{model_name}_embeddings.csv')
+    # structural class
+    #parse_SCOPe_file(plm_embed(model_name), f'{model_name}_embeddings.csv')
+
+    # subcellular localization
+    df = pd.read_csv("functional_annotations.csv")
+    df = df.rename(columns={'location': 'type'})
+
+    embed_fn = plm_embed(model_name)
+    df["embedding"] = df["Sequence"].apply(lambda seq: embed_fn(seq))
+    
+    df.to_parquet(f"{model_name}_functional.parquet")
+

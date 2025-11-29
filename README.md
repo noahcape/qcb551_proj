@@ -1,6 +1,6 @@
 # qcb551_proj
 
-Dependencies: `pip install enum scikit-learn scipy pytest pandas numpy umap matplotlib ast`
+Dependencies: `pip install enum scikit-learn scipy pytest pandas numpy umap matplotlib ast pyarrow`
 
 Run tests with: `pytest -s`
 

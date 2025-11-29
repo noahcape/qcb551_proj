@@ -162,6 +162,9 @@ def parse_SCOPe_file(embedding_func, outname, verbose=True):
 
 
 def parse_embeddings_and_type(in_file):
+    if 'parquet' in in_file:
+        return pd.read_parquet(in_file, columns=["type", "embedding"])
+
     df = pd.read_csv(
         in_file,
         converters={"embedding": ast.literal_eval},
@@ -170,8 +173,8 @@ def parse_embeddings_and_type(in_file):
 
     return df
 
-
 def plot_umap_structural(df):
+    descriptor = "SCOPe Class"
     scope_classes = {
         "a": "All-α proteins",
         "b": "All-β proteins",
@@ -181,6 +184,9 @@ def plot_umap_structural(df):
         "f": "Membrane and cell surface proteins",
         "g": "Small proteins",
     }
+
+    if df.iloc[0]["type"] not in scope_classes:
+        descriptor = "Subcellular Localization"
 
     # Extract class and embeddings
     X = np.array(df["embedding"].tolist(), dtype=np.float32)
@@ -205,7 +211,9 @@ def plot_umap_structural(df):
 
     for i, cls in enumerate(unique_classes):
         idx = df["type"] == cls
-        label = scope_classes.get(df["type"])
+        label = cls
+        if cls in scope_classes:
+            label = scope_classes.get(df["type"])
         plt.scatter(
             embedding_2d[idx, 0],
             embedding_2d[idx, 1],
@@ -218,8 +226,8 @@ def plot_umap_structural(df):
 
     plt.xlabel("UMAP-1")
     plt.ylabel("UMAP-2")
-    plt.title("UMAP of Protein Embeddings Colored by SCOPe Class")
-    plt.legend(title="SCOPe Class", fontsize=9)
+    plt.title(f"UMAP of Protein Embeddings Colored by {descriptor}")
+    plt.legend(title=descriptor, fontsize=9)
     plt.tight_layout()
     plt.show()
 
