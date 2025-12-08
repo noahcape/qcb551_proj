@@ -10,6 +10,19 @@ from sklearn.metrics import (
 from scipy.optimize import linear_sum_assignment
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os 
+
+
+def safe_savefig(path, dpi=600):
+    """Only save a figure if the directory exists. Otherwise print a warning."""
+    directory = os.path.dirname(path)
+    if not os.path.isdir(directory):
+        print(f"[WARNING] Directory does not exist → Skipping save: {path}")
+        plt.show()
+        return
+    plt.savefig(path, dpi=dpi)
+    print(f"[saved] {path}")
+
 from enum import Enum
 
 def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True):
@@ -20,7 +33,7 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
     ARI, NMI, mapping-based accuracy, per-class metrics, confusion matrix
     mapping based on the Hungarian combinatorial optimization algorithm to maximize correct matches
     """
-    figsize=(8,6) 
+    figsize = (8, 6)
 
     y_pred = np.asarray(cluster_labels)
     y_true = np.asarray(true_labels)
@@ -31,7 +44,8 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
     # Contingency / confusion between predicted clusters and true labels
     true_classes = np.unique(y_true)
     pred_classes = np.unique(y_pred)
-    contingency = pd.crosstab(pd.Series(y_true, name="true"), pd.Series(y_pred, name="pred"))
+    contingency = pd.crosstab(pd.Series(y_true, name="true"),
+                              pd.Series(y_pred, name="pred"))
 
     # Pairwise Jaccard matrix between predicted clusters and true labels
     # jacc_matrix[i, j] = |intersection(true_i, pred_j)| / |union(true_i, pred_j)|
@@ -43,16 +57,24 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
             inter = len(idx_t & idx_p)
             union = len(idx_t | idx_p)
             jacc_matrix[i, j] = inter / union if union > 0 else 0.0
-    jacc_pairwise_df = pd.DataFrame(jacc_matrix, index=true_classes, columns=pred_classes)
+    jacc_pairwise_df = pd.DataFrame(jacc_matrix,
+                                    index=true_classes,
+                                    columns=pred_classes)
 
     # clustering Jaccard metrics (best-match variants)
-    # For each true class, best overlapping predicted cluster (true -> best pred)
-    # then averages those best overlaps.
-    jacc_best_per_true = jacc_pairwise_df.max(axis=1)       
-    jacc_macro = float(jacc_best_per_true.mean())            
+
+    # 1) True → best predicted cluster
+    # For each true class, take the cluster with highest Jaccard overlap.
+    jacc_best_per_true = jacc_pairwise_df.max(axis=1)
+    jacc_macro_true_to_pred = float(jacc_best_per_true.mean())
+
+    # 2) Predicted cluster → best true class
+    # For each predicted cluster, take the true class with highest Jaccard overlap.
+    jacc_best_per_pred = jacc_pairwise_df.max(axis=0)
+    jacc_macro_pred_to_true = float(jacc_best_per_pred.mean())
 
     # Hungarian algo to maximize correct matches:
-    # Build cost = -contingency 
+    # Build cost = -contingency
     cost = -contingency.values
     row_ind, col_ind = linear_sum_assignment(cost)
 
@@ -62,12 +84,38 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
         pred_label = contingency.columns[c]
         mapping[pred_label] = true_label
 
+    # Jaccard restricted to Hungarian-aligned pairs 
+    # For each (pred_cluster -> true_class) mapping pair, take its Jaccard
+    hungarian_rows = []
+    hungarian_jaccs = []
+    for pred_label, true_label in mapping.items():
+        if (true_label in jacc_pairwise_df.index) and (pred_label in jacc_pairwise_df.columns):
+            j = float(jacc_pairwise_df.loc[true_label, pred_label])
+            hungarian_rows.append({
+                "pred_cluster": pred_label,
+                "true_class": true_label,
+                "jaccard": j
+            })
+            hungarian_jaccs.append(j)
+
+    if hungarian_jaccs:
+        jacc_macro_hungarian = float(np.mean(hungarian_jaccs))
+        hungarian_match_df = pd.DataFrame(hungarian_rows).set_index("pred_cluster")
+    else:
+        jacc_macro_hungarian = np.nan
+        hungarian_match_df = pd.DataFrame(columns=["pred_cluster", "true_class", "jaccard"])
+
+    # Apply mapping to get mapped predicted labels (now in true label space)
     mapped_pred = np.array([mapping.get(p, f"unmapped_{p}") for p in y_pred])
     acc = (mapped_pred == y_true).mean()
 
     mapped_pred_categories = pd.Categorical(mapped_pred, categories=true_classes)
-    cm = pd.crosstab(pd.Series(y_true, name="true"), pd.Series(mapped_pred_categories, name="pred_mapped"))
-    precision, recall, f1, support = precision_recall_fscore_support(y_true, mapped_pred, labels=true_classes, zero_division=0)
+    cm = pd.crosstab(pd.Series(y_true, name="true"),
+                     pd.Series(mapped_pred_categories, name="pred_mapped"))
+
+    precision, recall, f1, support = precision_recall_fscore_support(
+        y_true, mapped_pred, labels=true_classes, zero_division=0
+    )
 
     per_class_df = pd.DataFrame({
         "precision": precision,
@@ -79,7 +127,9 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
     print(method)
     print(f"ARI = {ari:.4f}")
     print(f"NMI = {nmi:.4f}")
-    print(f"Jaccard (macro) = {jacc_macro:.4f}")
+    print(f"Jaccard macro (true → best cluster) = {jacc_macro_true_to_pred:.4f}")
+    print(f"Jaccard macro (cluster → best true) = {jacc_macro_pred_to_true:.4f}")
+    print(f"Jaccard macro (Hungarian-aligned pairs) = {jacc_macro_hungarian:.4f}")
     print(f"Mapping-based clustering accuracy = {acc:.4f}")
     print()
     print("Per-class metrics (after mapping):")
@@ -92,12 +142,33 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
     print("Contingency after mapping (true x pred_mapped):")
     print(cm)
 
-    best_pred_for_true = jacc_pairwise_df.idxmax(axis=1)
-    best_jacc_for_true = jacc_pairwise_df.max(axis=1)
-    best_match_df = pd.DataFrame({"best_pred_cluster": best_pred_for_true, "jaccard": best_jacc_for_true})
+    # Best matches (full Jaccard matrix, not restricted to Hungarian)
     print()
     print("Best predicted cluster for each true class (by Jaccard):")
-    print(best_match_df)
+    best_pred_for_true = jacc_pairwise_df.idxmax(axis=1)
+    best_jacc_for_true = jacc_pairwise_df.max(axis=1)
+
+    best_match_true_to_pred = pd.DataFrame({
+        "best_pred_cluster": best_pred_for_true,
+        "jaccard": best_jacc_for_true
+    })
+    print(best_match_true_to_pred)
+
+    print()
+    print("Best true class for each predicted cluster (by Jaccard):")
+    best_true_for_pred = jacc_pairwise_df.idxmax(axis=0)
+    best_jacc_for_pred = jacc_pairwise_df.max(axis=0)
+
+    best_match_pred_to_true = pd.DataFrame({
+        "best_true_class": best_true_for_pred,
+        "jaccard": best_jacc_for_pred
+    })
+    print(best_match_pred_to_true)
+
+    # Hungarian-specific Jaccard table
+    print()
+    print("Hungarian alignment: Jaccard for each matched (pred_cluster → true_class) pair:")
+    print(hungarian_match_df)
 
     if plot_heatmap:
         plt.figure(figsize=figsize)
@@ -106,7 +177,9 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
         plt.ylabel("True label")
         plt.xlabel("Mapped predicted label")
         plt.tight_layout()
-        plt.savefig(f"./data/confusion_matrix_{method}.png", dpi=600)
+        # plt.savefig(f"./data/confusion_matrix_{method}.png", dpi=600)
+        savepath1 = f"./data/confusion_matrix_{method}.png"
+        safe_savefig(savepath1)
         plt.close()
 
         plt.figure(figsize=(max(6, len(pred_classes)*0.5), max(4, len(true_classes)*0.5)))
@@ -115,13 +188,18 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
         plt.ylabel("True label")
         plt.xlabel("Predicted cluster")
         plt.tight_layout()
-        plt.savefig(f"./data/pairwise_jaccard_{method}.png", dpi=600)
+        #plt.savefig(f"./data/pairwise_jaccard_{method}.png", dpi=600)
+        savepath2 = f"./data/pairwise_jaccard_{method}.png"
+        safe_savefig(savepath2) 
         plt.close()
 
     results = {
         "ARI": ari,
         "NMI": nmi,
-        "Jaccard_macro": jacc_macro,
+        "Jaccard_macro_true_to_pred": jacc_macro_true_to_pred,
+        "Jaccard_macro_pred_to_true": jacc_macro_pred_to_true,
+        "Jaccard_macro_hungarian": jacc_macro_hungarian,  
+
         "pairwise_jaccard": jacc_pairwise_df,
         "contingency": contingency,
         "mapping": mapping,
@@ -129,7 +207,10 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
         "mapping_accuracy": acc,
         "confusion_mapped": cm,
         "per_class_metrics": per_class_df,
-        "best_match_df": best_match_df,
+
+        "best_match_true_to_pred": best_match_true_to_pred,
+        "best_match_pred_to_true": best_match_pred_to_true,
+        "hungarian_match_jaccard": hungarian_match_df,    
     }
     return results
 
@@ -203,4 +284,6 @@ if __name__ == "__main__":
 #     "multidomain protein", "alpha protein"
 # ]
 
-# res = clustering_evaluation(cluster_labels, true_labels) 
+# res = clustering_evaluation("test_method", cluster_labels, true_labels)
+
+
