@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import umap
 import seaborn as sns
 from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
 from cluster_label_eval import clustering_evaluation
 
 
@@ -173,7 +174,7 @@ def parse_embeddings_and_type(in_file):
 
     return df
 
-def plot_umap_structural(df):
+def plot_umap_structural(df, tsne=False, scale=True):
     descriptor = "SCOPe Class"
     scope_classes = {
         "a": "All-α proteins",
@@ -192,20 +193,30 @@ def plot_umap_structural(df):
     X = np.array(df["embedding"].tolist(), dtype=np.float32)
 
     # Standardize embeddings
-    X_scaled = StandardScaler().fit_transform(X)
-    reducer = umap.UMAP(
-        n_neighbors=15,
-        n_components=2,
-        metric="euclidean",
-        random_state=None,
-        init="random",  # <-- use random instead of spectral
-        n_jobs=-1,
-    )
+    if scale:
+        X_scaled = StandardScaler().fit_transform(X)
+    else:
+        X_scaled = X
+
+    if tsne:
+        reducer = TSNE(n_components=2, random_state=42, method='exact'
+        )
+        red_name = 'TSNE'
+    else:
+        reducer = umap.UMAP(
+            n_neighbors=15,
+            n_components=2,
+            metric="euclidean",
+            random_state=None,
+            init="random",  # <-- use random instead of spectral
+            n_jobs=-1,
+        )
+        red_name = 'UMAP'
     embedding_2d = reducer.fit_transform(X_scaled)
     print(pd.DataFrame(embedding_2d).head())
 
     # Plot
-    plt.figure(figsize=(9, 7))
+    plt.figure(figsize=(7, 7))
     unique_classes = sorted(df["type"].unique())
     colors = plt.cm.tab10(np.linspace(0, 1, len(unique_classes)))
 
@@ -220,14 +231,14 @@ def plot_umap_structural(df):
             color=colors[i],
             label=label,
             alpha=0.8,
-            s=40,
+            s=20,
             edgecolor="none",
         )
 
-    plt.xlabel("UMAP-1")
-    plt.ylabel("UMAP-2")
-    plt.title(f"UMAP of Protein Embeddings Colored by {descriptor}")
-    plt.legend(title=descriptor, fontsize=9)
+    plt.xlabel(f"{red_name}-1")
+    plt.ylabel(f"{red_name}-2")
+    plt.title(f"{red_name} of Protein Embeddings Colored by {descriptor}")
+    #plt.legend(title=descriptor, fontsize=9, loc='center left', bbox_to_anchor=(1.02, 0.5))
     plt.tight_layout()
     plt.show()
 
@@ -268,13 +279,19 @@ def cluster_compare(df, n, embedding_type):
 Example with BOW
 """
 if __name__ == "__main__":
+    '''
     for embedding_name in ['bag_of_words', 'esm2_8M_embeddings', 'esm2_35M_embeddings', 'esm2_150M_embeddings', 'prot_bert_embeddings']:
         print(embedding_name)
         df = parse_embeddings_and_type(f"/home/jc4587/qcb551_proj/embeddings/{embedding_name}.csv")
         # Fix label collumn for esm embeddings
         if 'esm' in embedding_name or 'prot_bert' in embedding_name:
             df['type'] = [s[0] for s in df['type'].tolist()]
-        print(df['type'].value_counts())
+    '''
+    for embedding_name in [#'bow', 
+                            'esm2_8M', 'esm2_35M', 'esm2_150M', 'prot_bert']:
+        embedding_name += '_functional'
+        df = parse_embeddings_and_type(f"{embedding_name}.parquet")
+        #print(df['type'].value_counts())
 
         N_PER_CLASS = 200 
         # "Stratified fixed-size sample"
@@ -283,4 +300,7 @@ if __name__ == "__main__":
             .apply(lambda x: x.sample(n=min(N_PER_CLASS, len(x)), random_state=42))
             .reset_index(drop=True)
         )
-        cluster_compare(sampled_df, 7, embedding_name)
+        # exclude this category since it only has 23 proteins
+        sampled_df = sampled_df[sampled_df['type'] != 'Cell membrane']
+        print(sampled_df['type'].value_counts())
+        cluster_compare(sampled_df, sampled_df['type'].nunique(), embedding_name)

@@ -10,6 +10,7 @@ from sklearn.metrics import (
 from scipy.optimize import linear_sum_assignment
 import matplotlib.pyplot as plt
 import seaborn as sns
+from enum import Enum
 
 def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True):
     """
@@ -131,6 +132,66 @@ def clustering_evaluation(method, cluster_labels, true_labels, plot_heatmap=True
         "best_match_df": best_match_df,
     }
     return results
+
+class Clustering(Enum):
+    Hierarchical = 1
+    Spectral = 2
+    Kmeans = 3
+
+
+class Similarity(Enum):
+    Cosine = "cosine"
+    Euclidean = "euclidean"
+    Geodesic = "isomap"
+
+def parse_embeddings_and_type(in_file):
+    if 'parquet' in in_file:
+        return pd.read_parquet(in_file, columns=["type", "embedding"])
+
+    df = pd.read_csv(
+        in_file,
+        converters={"embedding": ast.literal_eval},
+        usecols=["type", "embedding"],
+    )
+
+    return df
+
+def eval_all():
+    sim_clust = [
+        # (Similarity.Cosine, Clustering.Hierarchical),
+        (Similarity.Cosine, Clustering.Kmeans),
+        (Similarity.Cosine, Clustering.Spectral),
+        # (Similarity.Euclidean, Clustering.Hierarchical),
+        (Similarity.Euclidean, Clustering.Kmeans),
+        (Similarity.Euclidean, Clustering.Spectral),
+        # (Similarity.Geodesic, Clustering.Hierarchical),
+        (Similarity.Geodesic, Clustering.Kmeans),
+        (Similarity.Geodesic, Clustering.Spectral),
+    ]
+
+    for embedding_name in ['bow', 'esm2_8M', 'esm2_35M', 'esm2_150M', 'prot_bert']:
+        embedding_name += '_functional'
+        df = parse_embeddings_and_type(f"{embedding_name}.parquet")
+        #print(df['type'].value_counts())
+
+        N_PER_CLASS = 200 
+        # "Stratified fixed-size sample"
+        sampled_df = (
+            df.groupby("type", group_keys=False)
+            .apply(lambda x: x.sample(n=min(N_PER_CLASS, len(x)), random_state=42))
+            .reset_index(drop=True)
+        )
+        # exclude this category since it only has 23 proteins
+        sampled_df = sampled_df[sampled_df['type'] != 'Cell membrane']
+        labels = sampled_df['type']
+
+        for similarity, clustering in sim_clust:
+            clusters = np.load(f'./data/{embedding_name}_{similarity}_{clustering}_clusterlabels.npy')
+            print(embedding_name)
+            clustering_evaluation(f'{similarity}_{clustering}', clusters, labels)
+
+if __name__ == "__main__":
+    eval_all()
 
 # Example run:
 

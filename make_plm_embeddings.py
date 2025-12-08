@@ -9,7 +9,8 @@ model_name = (
     #'esm2_t6_8M_UR50D'
     #'esm2_t12_35M_UR50D'
     #'esm2_t30_150M_UR50D'
-    'prot_bert'
+    #'prot_bert'
+    'bow'
 )
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"using {device}")
@@ -37,6 +38,41 @@ def plm_embed(model_name):
 
     return embed_fn
 
+aa_ordering = [
+    "A",
+    "R",
+    "N",
+    "D",
+    "C",
+    "Q",
+    "E",
+    "G",
+    "H",
+    "I",
+    "L",
+    "K",
+    "M",
+    "F",
+    "P",
+    "S",
+    "T",
+    "W",
+    "Y",
+    "V",
+]
+
+aa_indices = {a: i for (a, i) in list(zip(aa_ordering, range(20)))}
+
+def bow_embedding(p):
+    embedding = [0 for _ in range(20)]
+    for aa in p:
+        # this is handeling the occurance of X
+        if aa not in aa_ordering:
+            continue
+        embedding[aa_indices[aa]] += 1
+
+    return embedding
+
 if __name__ == "__main__":
     # structural class
     #parse_SCOPe_file(plm_embed(model_name), f'{model_name}_embeddings.csv')
@@ -46,7 +82,10 @@ if __name__ == "__main__":
     df = df.rename(columns={'location': 'type'})
 
     embed_fn = plm_embed(model_name)
-    df["embedding"] = df["Sequence"].apply(lambda seq: embed_fn(seq))
+    if model_name == 'bow':
+        df["embedding"] = df["Sequence"].apply(lambda seq: bow_embedding(seq))
+    else:
+        df["embedding"] = df["Sequence"].apply(lambda seq: embed_fn(seq))
     
     df.to_parquet(f"{model_name}_functional.parquet")
 

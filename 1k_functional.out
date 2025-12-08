@@ -1,0 +1,1740 @@
+bow_functional
+Similarity.Cosine_Clustering.Kmeans
+ARI = 0.0229
+NMI = 0.0640
+Jaccard (macro) = 0.1268
+Mapping-based clustering accuracy = 0.1923
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.250   0.005 0.010      200
+Endoplasmic reticulum      0.171   0.220 0.192      200
+Extracellular              0.538   0.245 0.337      200
+Golgi apparatus            0.130   0.103 0.115      126
+Lysosome/Vacuole           0.157   0.160 0.158      200
+Mitochondrion              0.097   0.015 0.026      200
+Nucleus                    0.188   0.110 0.139      200
+Peroxisome                 0.206   0.459 0.285      159
+Plastid                    0.165   0.435 0.240      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4  5   6   7   8
+true                                                    
+Cytoplasm              15  78   3  21  10  1  14  17  41
+Endoplasmic reticulum  15  56   2  19   7  1  10  46  44
+Extracellular          26  28  14  20  49  0  24  22  17
+Golgi apparatus         5  52   1  13   1  0  13  14  27
+Lysosome/Vacuole       12  61   1  32   2  1  11  58  22
+Mitochondrion          12  54   3  28   8  0  11  53  31
+Nucleus                22  60   5  29  14  1  14  13  42
+Peroxisome              5  50   2  15   0  0   2  73  12
+Plastid                 5  87   0  27   0  0   1  58  22
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                      1                     41  ...          17       78
+Endoplasmic reticulum          1                     44  ...          46       56
+Extracellular                  0                     17  ...          22       28
+Golgi apparatus                0                     27  ...          14       52
+Lysosome/Vacuole               1                     22  ...          58       61
+Mitochondrion                  0                     31  ...          53       54
+Nucleus                        1                     42  ...          13       60
+Peroxisome                     0                     12  ...          73       50
+Plastid                        0                     22  ...          58       87
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              1  0.120370
+Endoplasmic reticulum                  8  0.106280
+Extracellular                          4  0.202479
+Golgi apparatus                        1  0.086667
+Lysosome/Vacuole                       7  0.116935
+Mitochondrion                          7  0.105788
+Nucleus                                8  0.100962
+Peroxisome                             7  0.165909
+Plastid                                1  0.136150
+bow_functional
+Similarity.Cosine_Clustering.Spectral
+ARI = 0.0003
+NMI = 0.0098
+Jaccard (macro) = 0.0768
+Mapping-based clustering accuracy = 0.1401
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.141   0.150 0.145      200
+Endoplasmic reticulum      0.140   0.130 0.135      200
+Extracellular              0.164   0.155 0.159      200
+Golgi apparatus            0.109   0.167 0.132      126
+Lysosome/Vacuole           0.150   0.140 0.145      200
+Mitochondrion              0.150   0.135 0.142      200
+Nucleus                    0.159   0.150 0.154      200
+Peroxisome                 0.128   0.132 0.130      159
+Plastid                    0.119   0.110 0.114      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              22  12  21  21  28  21  21  30  24
+Endoplasmic reticulum  24  23  12  21  16  26  25  29  24
+Extracellular          25  20  21  11  26  26  31  22  18
+Golgi apparatus        14  14  17  11  15   8  11  15  21
+Lysosome/Vacuole        9  20  24  26  28  20  23  26  24
+Mitochondrion          25  14  24  27  18  24  18  21  29
+Nucleus                28  19  30  23  16  25  20  24  15
+Peroxisome             16  21  16  21  20  14  15  21  15
+Plastid                22  21  24  19  20  22  25  25  22
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     30                     21  ...          12       22
+Endoplasmic reticulum         29                     26  ...          23       24
+Extracellular                 22                     26  ...          20       25
+Golgi apparatus               15                      8  ...          14       14
+Lysosome/Vacuole              26                     20  ...          20        9
+Mitochondrion                 21                     24  ...          14       25
+Nucleus                       24                     25  ...          19       28
+Peroxisome                    21                     14  ...          21       16
+Plastid                       25                     22  ...          21       22
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              7  0.078329
+Endoplasmic reticulum                  7  0.075521
+Extracellular                          6  0.086592
+Golgi apparatus                        8  0.070707
+Lysosome/Vacuole                       4  0.077994
+Mitochondrion                          8  0.079890
+Nucleus                                2  0.083565
+Peroxisome                             1  0.069536
+Plastid                                6  0.068681
+bow_functional
+Similarity.Euclidean_Clustering.Kmeans
+ARI = 0.0266
+NMI = 0.0586
+Jaccard (macro) = 0.1280
+Mapping-based clustering accuracy = 0.2018
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.213   0.185 0.198      200
+Endoplasmic reticulum      0.214   0.030 0.053      200
+Extracellular              0.242   0.645 0.352      200
+Golgi apparatus            0.263   0.040 0.069      126
+Lysosome/Vacuole           0.200   0.005 0.010      200
+Mitochondrion              0.000   0.000 0.000      200
+Nucleus                    0.333   0.105 0.160      200
+Peroxisome                 0.155   0.296 0.203      159
+Plastid                    0.169   0.470 0.249      200
+
+Contingency table (true x pred):
+pred                     0   1  2   3  4   5  6   7  8
+true                                                  
+Cytoplasm               45  16  0  35  6  37  5  55  1
+Endoplasmic reticulum   56   5  0  42  0  18  6  73  0
+Extracellular          129   2  1  15  3   4  1  44  1
+Golgi apparatus         27   4  2  27  5  34  3  23  1
+Lysosome/Vacuole        57  12  0  34  2  23  6  65  1
+Mitochondrion           89   1  0  28  1   8  2  71  0
+Nucleus                 46  21  0  41  1  33  4  53  1
+Peroxisome              29   0  1  47  0   3  1  78  0
+Plastid                 55   2  0  34  1  14  0  94  0
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     37                      5  ...          35       55
+Endoplasmic reticulum         18                      6  ...          42       73
+Extracellular                  4                      1  ...          15       44
+Golgi apparatus               34                      3  ...          27       23
+Lysosome/Vacuole              23                      6  ...          34       65
+Mitochondrion                  8                      2  ...          28       71
+Nucleus                       33                      4  ...          41       53
+Peroxisome                     3                      1  ...          47       78
+Plastid                       14                      0  ...          34       94
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              5  0.109792
+Endoplasmic reticulum                  7  0.106881
+Extracellular                          0  0.213576
+Golgi apparatus                        5  0.127820
+Lysosome/Vacuole                       7  0.094067
+Mitochondrion                          0  0.138199
+Nucleus                                5  0.096774
+Peroxisome                             7  0.122449
+Plastid                                7  0.141994
+bow_functional
+Similarity.Euclidean_Clustering.Spectral
+ARI = 0.0002
+NMI = 0.0279
+Jaccard (macro) = 0.1109
+Mapping-based clustering accuracy = 0.1282
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.200   0.010 0.019      200
+Endoplasmic reticulum      1.000   0.005 0.010      200
+Extracellular              0.889   0.040 0.077      200
+Golgi apparatus            0.667   0.016 0.031      126
+Lysosome/Vacuole           0.667   0.010 0.020      200
+Mitochondrion              0.167   0.005 0.010      200
+Nucleus                    0.121   1.000 0.216      200
+Peroxisome                 0.000   0.000 0.000      159
+Plastid                    0.000   0.000 0.000      200
+
+Contingency table (true x pred):
+pred                     0  1  2  3  4  5  6  7  8
+true                                              
+Cytoplasm              198  0  0  0  0  0  0  0  2
+Endoplasmic reticulum  198  0  0  0  1  0  0  0  1
+Extracellular          181  0  0  0  0  0  8  5  6
+Golgi apparatus        122  1  2  0  0  1  0  0  0
+Lysosome/Vacuole       195  2  1  1  0  0  1  0  0
+Mitochondrion          198  0  0  0  0  0  0  1  1
+Nucleus                200  0  0  0  0  0  0  0  0
+Peroxisome             159  0  0  0  0  0  0  0  0
+Plastid                200  0  0  0  0  0  0  0  0
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                      2                      0  ...           0        0
+Endoplasmic reticulum          1                      1  ...           0        0
+Extracellular                  6                      0  ...           0        0
+Golgi apparatus                0                      0  ...           0        1
+Lysosome/Vacuole               0                      0  ...           1        0
+Mitochondrion                  1                      0  ...           0        0
+Nucleus                        0                      0  ...           0        0
+Peroxisome                     0                      0  ...           0        0
+Plastid                        0                      0  ...           0        0
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.119782
+Endoplasmic reticulum                  0  0.119782
+Extracellular                          0  0.108383
+Golgi apparatus                        0  0.073716
+Lysosome/Vacuole                       0  0.117754
+Mitochondrion                          0  0.119782
+Nucleus                                0  0.121139
+Peroxisome                             0  0.096305
+Plastid                                0  0.121139
+bow_functional
+Similarity.Geodesic_Clustering.Kmeans
+ARI = 0.0273
+NMI = 0.0532
+Jaccard (macro) = 0.1240
+Mapping-based clustering accuracy = 0.1958
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.254   0.180 0.211      200
+Endoplasmic reticulum      0.148   0.260 0.188      200
+Extracellular              0.271   0.620 0.377      200
+Golgi apparatus            0.312   0.040 0.070      126
+Lysosome/Vacuole           0.208   0.025 0.045      200
+Mitochondrion              0.000   0.000 0.000      200
+Nucleus                    0.283   0.075 0.119      200
+Peroxisome                 0.124   0.151 0.136      159
+Plastid                    0.156   0.345 0.215      200
+
+Contingency table (true x pred):
+pred                     0  1   2  3   4   5   6  7   8
+true                                                   
+Cytoplasm               43  6  27  1  36  41  12  3  31
+Endoplasmic reticulum   48  4  26  0  13  53   4  0  52
+Extracellular          124  1   8  1   3  31   2  3  27
+Golgi apparatus         21  4  20  1  27  20   4  5  24
+Lysosome/Vacuole        45  5  23  1  16  53  12  1  44
+Mitochondrion           73  2  17  0   6  67   1  1  33
+Nucleus                 36  2  26  1  31  46  15  1  42
+Peroxisome              20  0  24  0   3  62   1  1  48
+Plastid                 47  0  23  0   7  69   2  1  51
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     36                     31  ...          27       41
+Endoplasmic reticulum         13                     52  ...          26       53
+Extracellular                  3                     27  ...           8       31
+Golgi apparatus               27                     24  ...          20       20
+Lysosome/Vacuole              16                     44  ...          23       53
+Mitochondrion                  6                     33  ...          17       67
+Nucleus                       31                     42  ...          26       46
+Peroxisome                     3                     48  ...          24       62
+Plastid                        7                     51  ...          23       69
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              4  0.117647
+Endoplasmic reticulum                  8  0.104000
+Extracellular                          0  0.232645
+Golgi apparatus                        4  0.112033
+Lysosome/Vacuole                       5  0.089983
+Mitochondrion                          0  0.125000
+Nucleus                                4  0.099678
+Peroxisome                             5  0.115028
+Plastid                                5  0.120419
+bow_functional
+Similarity.Geodesic_Clustering.Spectral
+ARI = 0.0051
+NMI = 0.0185
+Jaccard (macro) = 0.0873
+Mapping-based clustering accuracy = 0.1501
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.184   0.135 0.156      200
+Endoplasmic reticulum      0.154   0.135 0.144      200
+Extracellular              0.167   0.220 0.190      200
+Golgi apparatus            0.102   0.103 0.102      126
+Lysosome/Vacuole           0.159   0.170 0.164      200
+Mitochondrion              0.169   0.065 0.094      200
+Nucleus                    0.153   0.145 0.149      200
+Peroxisome                 0.132   0.233 0.168      159
+Plastid                    0.139   0.145 0.142      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              24  29  19  36  27  25  13   9  18
+Endoplasmic reticulum  30  31  20  22  14  30  27   9  17
+Extracellular          24  39   8  10   8  44  23   6  38
+Golgi apparatus        17  14  13  20  18  17   6   8  13
+Lysosome/Vacuole       21  23  16  34  17  31  25   6  27
+Mitochondrion          28  37   8  25   8  35  20  13  26
+Nucleus                16  32  17  30  22  23  24   7  29
+Peroxisome             20  37   8  17  14  23  16  10  14
+Plastid                29  39  19  20  19  36  21   9   8
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     27                     13  ...          29       24
+Endoplasmic reticulum         14                     27  ...          31       30
+Extracellular                  8                     23  ...          39       24
+Golgi apparatus               18                      6  ...          14       17
+Lysosome/Vacuole              17                     25  ...          23       21
+Mitochondrion                  8                     20  ...          37       28
+Nucleus                       22                     24  ...          32       16
+Peroxisome                    14                     16  ...          37       20
+Plastid                       19                     21  ...          39       29
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              3  0.095238
+Endoplasmic reticulum                  0  0.079156
+Extracellular                          8  0.107955
+Golgi apparatus                        4  0.070588
+Lysosome/Vacuole                       3  0.089474
+Mitochondrion                          1  0.083333
+Nucleus                                8  0.080332
+Peroxisome                             1  0.091811
+Plastid                                1  0.088235
+esm2_8M_functional
+Similarity.Cosine_Clustering.Kmeans
+ARI = 0.0281
+NMI = 0.0684
+Jaccard (macro) = 0.1303
+Mapping-based clustering accuracy = 0.2018
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.148   0.120 0.133      200
+Endoplasmic reticulum      0.184   0.295 0.227      200
+Extracellular              0.354   0.225 0.275      200
+Golgi apparatus            0.000   0.000 0.000      126
+Lysosome/Vacuole           0.194   0.070 0.103      200
+Mitochondrion              0.143   0.005 0.010      200
+Nucleus                    0.310   0.310 0.310      200
+Peroxisome                 0.202   0.157 0.177      159
+Plastid                    0.165   0.550 0.254      200
+
+Contingency table (true x pred):
+pred                    0   1    2  3   4   5  6   7   8
+true                                                    
+Cytoplasm              44  10   76  0  17  24  1  21   7
+Endoplasmic reticulum  14  21   66  1  12  19  2  59   6
+Extracellular          13  13   35  0  45   9  2  73  10
+Golgi apparatus        23   9   63  0  14   9  0   2   6
+Lysosome/Vacuole       22   9   81  0   6  16  1  51  14
+Mitochondrion          10  15  104  1   8  21  1  39   1
+Nucleus                62   5   83  0  17  13  1  13   6
+Peroxisome              3  25   47  4   5  25  0  32  18
+Plastid                 9  17  110  1   3  26  0  30   4
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     24                     21  ...          10       76
+Endoplasmic reticulum         19                     59  ...          21       66
+Extracellular                  9                     73  ...          13       35
+Golgi apparatus                9                      2  ...           9       63
+Lysosome/Vacuole              16                     51  ...           9       81
+Mitochondrion                 21                     39  ...          15      104
+Nucleus                       13                     13  ...           5       83
+Peroxisome                    25                     32  ...          25       47
+Plastid                       26                     30  ...          17      110
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.123596
+Endoplasmic reticulum                  7  0.127983
+Extracellular                          7  0.163311
+Golgi apparatus                        2  0.086538
+Lysosome/Vacuole                       7  0.108742
+Mitochondrion                          2  0.136662
+Nucleus                                0  0.183432
+Peroxisome                             1  0.096899
+Plastid                                2  0.145695
+esm2_8M_functional
+Similarity.Cosine_Clustering.Spectral
+ARI = -0.0014
+NMI = 0.0057
+Jaccard (macro) = 0.0777
+Mapping-based clustering accuracy = 0.1395
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.148   0.140 0.144      200
+Endoplasmic reticulum      0.145   0.120 0.131      200
+Extracellular              0.160   0.150 0.155      200
+Golgi apparatus            0.097   0.135 0.113      126
+Lysosome/Vacuole           0.158   0.160 0.159      200
+Mitochondrion              0.127   0.095 0.109      200
+Nucleus                    0.152   0.155 0.153      200
+Peroxisome                 0.123   0.170 0.142      159
+Plastid                    0.141   0.135 0.138      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              28  18  21  20  23  16  24  29  21
+Endoplasmic reticulum  25  22  20  30  21  17  15  26  24
+Extracellular          24  20  30  17  29  17  21  25  17
+Golgi apparatus        14  11  17  13  14  13  17  14  13
+Lysosome/Vacuole       16  28  21  32  21  19  21  24  18
+Mitochondrion          24  25  20  25  19  19  22  30  16
+Nucleus                17  23  21  24  31  22  23  21  18
+Peroxisome             17  18  17  19  19  14  14  27  14
+Plastid                24  27  20  22  27  13  18  24  25
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     28                     21  ...          29       18
+Endoplasmic reticulum         25                     24  ...          26       22
+Extracellular                 24                     17  ...          25       20
+Golgi apparatus               14                     13  ...          14       11
+Lysosome/Vacuole              16                     18  ...          24       28
+Mitochondrion                 24                     16  ...          30       25
+Nucleus                       17                     18  ...          21       23
+Peroxisome                    17                     14  ...          27       18
+Plastid                       24                     25  ...          24       27
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.077562
+Endoplasmic reticulum                  3  0.080645
+Extracellular                          2  0.084034
+Golgi apparatus                        6  0.059859
+Lysosome/Vacuole                       3  0.086486
+Mitochondrion                          7  0.076923
+Nucleus                                4  0.083110
+Peroxisome                             7  0.076705
+Plastid                                1  0.073973
+esm2_8M_functional
+Similarity.Euclidean_Clustering.Kmeans
+ARI = 0.0333
+NMI = 0.0826
+Jaccard (macro) = 0.1383
+Mapping-based clustering accuracy = 0.2190
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.193   0.115 0.144      200
+Endoplasmic reticulum      0.207   0.275 0.236      200
+Extracellular              0.593   0.350 0.440      200
+Golgi apparatus            0.078   0.048 0.059      126
+Lysosome/Vacuole           0.121   0.020 0.034      200
+Mitochondrion              0.183   0.460 0.262      200
+Nucleus                    0.226   0.235 0.230      200
+Peroxisome                 0.244   0.245 0.245      159
+Plastid                    0.164   0.165 0.165      200
+
+Contingency table (true x pred):
+pred                    0   1   2  3   4   5   6   7   8
+true                                                    
+Cytoplasm              34  17  31  2  26  54  23   2  11
+Endoplasmic reticulum  25  23  55  6  26  35  11  15   4
+Extracellular          14  12  14  7   9  26  17  70  31
+Golgi apparatus        21  13  10  0   9  48  17   2   6
+Lysosome/Vacuole       21  19  36  4  23  59  10  24   4
+Mitochondrion          24  15  26  2  26  92   6   4   5
+Nucleus                47   4  25  4  18  62  28   0  12
+Peroxisome              3  39  32  7  31  39   4   1   3
+Plastid                19  18  37  1  33  88   3   0   1
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     23                     31  ...          17       26
+Endoplasmic reticulum         11                     55  ...          23       26
+Extracellular                 17                     14  ...          12        9
+Golgi apparatus               17                     10  ...          13        9
+Lysosome/Vacuole              10                     36  ...          19       23
+Mitochondrion                  6                     26  ...          15       26
+Nucleus                       28                     25  ...           4       18
+Peroxisome                     4                     32  ...          39       31
+Plastid                        3                     37  ...          18       33
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.090909
+Endoplasmic reticulum                  2  0.133820
+Extracellular                          7  0.282258
+Golgi apparatus                        5  0.082616
+Lysosome/Vacuole                       5  0.091615
+Mitochondrion                          5  0.150573
+Nucleus                                0  0.130194
+Peroxisome                             1  0.139286
+Plastid                                5  0.143089
+esm2_8M_functional
+Similarity.Euclidean_Clustering.Spectral
+ARI = 0.0002
+NMI = 0.0121
+Jaccard (macro) = 0.1110
+Mapping-based clustering accuracy = 0.1234
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  1.000   0.005 0.010      200
+Endoplasmic reticulum      1.000   0.005 0.010      200
+Extracellular              1.000   0.010 0.020      200
+Golgi apparatus            1.000   0.008 0.016      126
+Lysosome/Vacuole           1.000   0.005 0.010      200
+Mitochondrion              0.119   1.000 0.213      200
+Nucleus                    0.000   0.000 0.000      200
+Peroxisome                 1.000   0.013 0.025      159
+Plastid                    0.000   0.000 0.000      200
+
+Contingency table (true x pred):
+pred                     0  1  2  3  4  5  6  7  8
+true                                              
+Cytoplasm              199  1  0  0  0  0  0  0  0
+Endoplasmic reticulum  199  0  0  1  0  0  0  0  0
+Extracellular          198  0  0  0  0  0  0  2  0
+Golgi apparatus        124  0  1  0  0  0  0  0  1
+Lysosome/Vacuole       198  0  0  0  0  1  1  0  0
+Mitochondrion          200  0  0  0  0  0  0  0  0
+Nucleus                200  0  0  0  0  0  0  0  0
+Peroxisome             157  0  0  0  2  0  0  0  0
+Plastid                200  0  0  0  0  0  0  0  0
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                      1                      0  ...           0        0
+Endoplasmic reticulum          0                      1  ...           0        0
+Extracellular                  0                      0  ...           0        0
+Golgi apparatus                0                      0  ...           0        1
+Lysosome/Vacuole               0                      0  ...           0        0
+Mitochondrion                  0                      0  ...           0        0
+Nucleus                        0                      0  ...           0        0
+Peroxisome                     0                      0  ...           2        0
+Plastid                        0                      0  ...           0        0
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.118735
+Endoplasmic reticulum                  0  0.118735
+Extracellular                          0  0.118068
+Golgi apparatus                        0  0.073942
+Lysosome/Vacuole                       0  0.118068
+Mitochondrion                          0  0.119403
+Nucleus                                0  0.119403
+Peroxisome                             0  0.093620
+Plastid                                0  0.119403
+esm2_8M_functional
+Similarity.Geodesic_Clustering.Kmeans
+ARI = 0.0562
+NMI = 0.1258
+Jaccard (macro) = 0.1652
+Mapping-based clustering accuracy = 0.2564
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.266   0.305 0.284      200
+Endoplasmic reticulum      0.231   0.305 0.263      200
+Extracellular              0.750   0.360 0.486      200
+Golgi apparatus            0.112   0.095 0.103      126
+Lysosome/Vacuole           0.051   0.010 0.017      200
+Mitochondrion              0.188   0.440 0.263      200
+Nucleus                    0.287   0.245 0.264      200
+Peroxisome                 0.357   0.283 0.316      159
+Plastid                    0.228   0.210 0.219      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              61   6  18  12  50   3  37  13   0
+Endoplasmic reticulum  11  15  61  14  39  11  14  28   7
+Extracellular           5   9  36  19  23   2  17  17  72
+Golgi apparatus        30   8   6  12  45   7  16   2   0
+Lysosome/Vacuole       41  22  44   3  33   2  22  19  14
+Mitochondrion          11  13  45  11  88   2   7  23   0
+Nucleus                59   0   8  12  64   0  49   8   0
+Peroxisome              3  45  11  14  39   7   8  32   0
+Plastid                 8   8  35  10  88   5   1  42   3
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     61                     18  ...           6       13
+Endoplasmic reticulum         11                     61  ...          15       28
+Extracellular                  5                     36  ...           9       17
+Golgi apparatus               30                      6  ...           8        2
+Lysosome/Vacuole              41                     44  ...          22       19
+Mitochondrion                 11                     45  ...          13       23
+Nucleus                       59                      8  ...           0        8
+Peroxisome                     3                     11  ...          45       32
+Plastid                        8                     35  ...           8       42
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.165761
+Endoplasmic reticulum                  2  0.151365
+Extracellular                          8  0.321429
+Golgi apparatus                        0  0.092308
+Lysosome/Vacuole                       0  0.105670
+Mitochondrion                          4  0.151463
+Nucleus                                0  0.159459
+Peroxisome                             1  0.187500
+Plastid                                4  0.151463
+esm2_8M_functional
+Similarity.Geodesic_Clustering.Spectral
+ARI = 0.0173
+NMI = 0.0371
+Jaccard (macro) = 0.1082
+Mapping-based clustering accuracy = 0.1893
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.160   0.145 0.152      200
+Endoplasmic reticulum      0.166   0.135 0.149      200
+Extracellular              0.310   0.330 0.320      200
+Golgi apparatus            0.153   0.214 0.178      126
+Lysosome/Vacuole           0.137   0.115 0.125      200
+Mitochondrion              0.191   0.205 0.198      200
+Nucleus                    0.151   0.135 0.142      200
+Peroxisome                 0.205   0.239 0.221      159
+Plastid                    0.201   0.205 0.203      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              29  17  20  19  19  24  31  19  22
+Endoplasmic reticulum  21  17  33  18  28  27  25  21  10
+Extracellular          23  66  12  24  12  15   9  27  12
+Golgi apparatus        19  12   4   7  12   9  18  27  18
+Lysosome/Vacuole       19  24  15  21  17  26  31  24  23
+Mitochondrion          15  19  22  40  21  11  41  16  15
+Nucleus                25  23  29   5  27  22  25  21  23
+Peroxisome             10  14  38  29  13   7  12  10  26
+Plastid                20  21  12  41  30  22  23  12  19
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     29                     24  ...          20       19
+Endoplasmic reticulum         21                     27  ...          33       18
+Extracellular                 23                     15  ...          12       24
+Golgi apparatus               19                      9  ...           4        7
+Lysosome/Vacuole              19                     26  ...          15       21
+Mitochondrion                 15                     11  ...          22       40
+Nucleus                       25                     22  ...          29        5
+Peroxisome                    10                      7  ...          38       29
+Plastid                       20                     22  ...          12       41
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.082386
+Endoplasmic reticulum                  2  0.093750
+Extracellular                          1  0.190202
+Golgi apparatus                        7  0.097826
+Lysosome/Vacuole                       6  0.080729
+Mitochondrion                          3  0.109890
+Nucleus                                2  0.081461
+Peroxisome                             2  0.124183
+Plastid                                3  0.112948
+esm2_35M_functional
+Similarity.Cosine_Clustering.Kmeans
+ARI = 0.0379
+NMI = 0.0813
+Jaccard (macro) = 0.1356
+Mapping-based clustering accuracy = 0.2148
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.152   0.085 0.109      200
+Endoplasmic reticulum      0.140   0.165 0.152      200
+Extracellular              0.419   0.400 0.409      200
+Golgi apparatus            0.088   0.024 0.037      126
+Lysosome/Vacuole           0.151   0.055 0.081      200
+Mitochondrion              0.161   0.375 0.226      200
+Nucleus                    0.340   0.240 0.282      200
+Peroxisome                 0.224   0.189 0.205      159
+Plastid                    0.217   0.325 0.260      200
+
+Contingency table (true x pred):
+pred                    0  1   2   3   4   5   6   7   8
+true                                                    
+Cytoplasm              28  3  21  17   5   9  58  44  15
+Endoplasmic reticulum  12  4  33   9   6  20  52  35  29
+Extracellular           2  7  14  43   8  15  21  10  80
+Golgi apparatus        25  3   7   7   1   8  51  12  12
+Lysosome/Vacuole       13  8  32   7  11  19  72  20  18
+Mitochondrion          10  4  26   6  13  16  75  32  18
+Nucleus                48  1  19  13  10   2  64  34   9
+Peroxisome              1  3  39   4   9  30  20  48   5
+Plastid                 2  1  44   6  10  15  52  65   5
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     17                     21  ...           9       44
+Endoplasmic reticulum          9                     33  ...          20       35
+Extracellular                 43                     14  ...          15       10
+Golgi apparatus                7                      7  ...           8       12
+Lysosome/Vacuole               7                     32  ...          19       20
+Mitochondrion                  6                     26  ...          16       32
+Nucleus                       13                     19  ...           2       34
+Peroxisome                     4                     39  ...          30       48
+Plastid                        6                     44  ...          15       65
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              7  0.096491
+Endoplasmic reticulum                  6  0.084829
+Extracellular                          8  0.257235
+Golgi apparatus                        0  0.103306
+Lysosome/Vacuole                       6  0.121417
+Mitochondrion                          6  0.127119
+Nucleus                                0  0.163823
+Peroxisome                             7  0.116788
+Plastid                                7  0.149425
+esm2_35M_functional
+Similarity.Cosine_Clustering.Spectral
+ARI = -0.0011
+NMI = 0.0064
+Jaccard (macro) = 0.0754
+Mapping-based clustering accuracy = 0.1353
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.144   0.130 0.136      200
+Endoplasmic reticulum      0.140   0.135 0.137      200
+Extracellular              0.130   0.125 0.128      200
+Golgi apparatus            0.096   0.135 0.112      126
+Lysosome/Vacuole           0.162   0.160 0.161      200
+Mitochondrion              0.159   0.165 0.162      200
+Nucleus                    0.126   0.115 0.120      200
+Peroxisome                 0.122   0.132 0.127      159
+Plastid                    0.133   0.120 0.126      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              25  17  16  24  28  26  21  15  28
+Endoplasmic reticulum  25  26  19  24  27  23  17  20  19
+Extracellular          21  29  23  22  17  20  23  20  25
+Golgi apparatus        15  14  10  17  13  12  13  18  14
+Lysosome/Vacuole       32  18  22  15  17  28  26  21  21
+Mitochondrion          21  33  20  20  26  14  17  27  22
+Nucleus                19  25  24  18  25  20  23  23  23
+Peroxisome             16  16  21  18  19  15  17  18  19
+Plastid                24  29  17  20  21  23  24  21  21
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     26                     28  ...          16       21
+Endoplasmic reticulum         23                     27  ...          19       17
+Extracellular                 20                     17  ...          23       23
+Golgi apparatus               12                     13  ...          10       13
+Lysosome/Vacuole              28                     17  ...          22       26
+Mitochondrion                 14                     26  ...          20       17
+Nucleus                       20                     25  ...          24       23
+Peroxisome                    15                     19  ...          21       17
+Plastid                       23                     21  ...          17       24
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              8  0.076923
+Endoplasmic reticulum                  4  0.073770
+Extracellular                          1  0.076720
+Golgi apparatus                        7  0.061856
+Lysosome/Vacuole                       0  0.087432
+Mitochondrion                          1  0.088235
+Nucleus                                2  0.068966
+Peroxisome                             2  0.067742
+Plastid                                1  0.076720
+esm2_35M_functional
+Similarity.Euclidean_Clustering.Kmeans
+ARI = 0.0234
+NMI = 0.0555
+Jaccard (macro) = 0.1125
+Mapping-based clustering accuracy = 0.1864
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.158   0.080 0.106      200
+Endoplasmic reticulum      0.165   0.230 0.192      200
+Extracellular              0.277   0.265 0.271      200
+Golgi apparatus            0.075   0.024 0.036      126
+Lysosome/Vacuole           0.162   0.225 0.188      200
+Mitochondrion              0.201   0.300 0.240      200
+Nucleus                    0.269   0.035 0.062      200
+Peroxisome                 0.194   0.189 0.191      159
+Plastid                    0.171   0.270 0.209      200
+
+Contingency table (true x pred):
+pred                    0   1   2  3   4   5   6  7   8
+true                                                   
+Cytoplasm              31  10  51  4  31  25  29  3  16
+Endoplasmic reticulum  28  17  32  3  39  46  22  4   9
+Extracellular          48  16  10  4   8  19  53  6  36
+Golgi apparatus        28   8  22  0  27   9  21  3   8
+Lysosome/Vacuole       33  27  33  4  45  30  15  8   5
+Mitochondrion          60  24  27  2  37  32   8  5   5
+Nucleus                36   3  38  7  41  25  32  3  15
+Peroxisome             15  30  49  2  10  42   2  5   4
+Plastid                20  20  54  0  40  51   9  3   3
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     16                     25  ...          10       51
+Endoplasmic reticulum          9                     46  ...          17       32
+Extracellular                 36                     19  ...          16       10
+Golgi apparatus                8                      9  ...           8       22
+Lysosome/Vacuole               5                     30  ...          27       33
+Mitochondrion                  5                     32  ...          24       27
+Nucleus                       15                     25  ...           3       38
+Peroxisome                     4                     42  ...          30       49
+Plastid                        3                     51  ...          20       54
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              2  0.109677
+Endoplasmic reticulum                  5  0.106236
+Extracellular                          6  0.156805
+Golgi apparatus                        4  0.071618
+Lysosome/Vacuole                       4  0.103926
+Mitochondrion                          0  0.136674
+Nucleus                                4  0.093822
+Peroxisome                             2  0.115023
+Plastid                                5  0.119159
+esm2_35M_functional
+Similarity.Euclidean_Clustering.Spectral
+ARI = 0.0000
+NMI = 0.0094
+Jaccard (macro) = 0.1111
+Mapping-based clustering accuracy = 0.1211
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.119   1.000 0.213      200
+Endoplasmic reticulum      1.000   0.005 0.010      200
+Extracellular              0.000   0.000 0.000      200
+Golgi apparatus            1.000   0.008 0.016      126
+Lysosome/Vacuole           1.000   0.005 0.010      200
+Mitochondrion              0.000   0.000 0.000      200
+Nucleus                    1.000   0.005 0.010      200
+Peroxisome                 0.000   0.000 0.000      159
+Plastid                    0.000   0.000 0.000      200
+
+Contingency table (true x pred):
+pred                     0  1  2  3  4  5  6  7  8
+true                                              
+Cytoplasm              200  0  0  0  0  0  0  0  0
+Endoplasmic reticulum  196  0  0  1  1  1  1  0  0
+Extracellular          200  0  0  0  0  0  0  0  0
+Golgi apparatus        125  0  0  0  0  0  0  1  0
+Lysosome/Vacuole       198  0  1  0  0  0  0  0  1
+Mitochondrion          200  0  0  0  0  0  0  0  0
+Nucleus                199  1  0  0  0  0  0  0  0
+Peroxisome             159  0  0  0  0  0  0  0  0
+Plastid                200  0  0  0  0  0  0  0  0
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                    200                      0  ...           0        0
+Endoplasmic reticulum        196                      1  ...           1        0
+Extracellular                200                      0  ...           0        0
+Golgi apparatus              125                      0  ...           0        0
+Lysosome/Vacuole             198                      0  ...           0        1
+Mitochondrion                200                      0  ...           0        0
+Nucleus                      199                      0  ...           0        0
+Peroxisome                   159                      0  ...           0        0
+Plastid                      200                      0  ...           0        0
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.119261
+Endoplasmic reticulum                  0  0.116597
+Extracellular                          0  0.119261
+Golgi apparatus                        0  0.074493
+Lysosome/Vacuole                       0  0.117927
+Mitochondrion                          0  0.119261
+Nucleus                                0  0.118594
+Peroxisome                             0  0.094812
+Plastid                                0  0.119261
+esm2_35M_functional
+Similarity.Geodesic_Clustering.Kmeans
+ARI = 0.0673
+NMI = 0.1428
+Jaccard (macro) = 0.1672
+Mapping-based clustering accuracy = 0.2641
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.197   0.280 0.231      200
+Endoplasmic reticulum      0.256   0.215 0.234      200
+Extracellular              0.829   0.340 0.482      200
+Golgi apparatus            0.156   0.111 0.130      126
+Lysosome/Vacuole           0.388   0.165 0.232      200
+Mitochondrion              0.263   0.260 0.261      200
+Nucleus                    0.336   0.250 0.287      200
+Peroxisome                 0.254   0.465 0.329      159
+Plastid                    0.163   0.275 0.204      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              56  68  17   1  12  30   8   8   0
+Endoplasmic reticulum  17  31  47  15  21   8   9  43   9
+Extracellular           7  10  20  26  44  10   0  15  68
+Golgi apparatus        45  25   6   1  10  16  14   8   1
+Lysosome/Vacuole       52  28  26  33  19  13  10  17   2
+Mitochondrion          26  38  35   1  52   8  17  23   0
+Nucleus                69  60   5   0  11  50   0   4   1
+Peroxisome              7  23  74   5  10   4  21  14   1
+Plastid                 5  55  61   3  19  10  11  36   0
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     56                      8  ...          17       68
+Endoplasmic reticulum         17                     43  ...          47       31
+Extracellular                  7                     15  ...          20       10
+Golgi apparatus               45                      8  ...           6       25
+Lysosome/Vacuole              52                     17  ...          26       28
+Mitochondrion                 26                     23  ...          35       38
+Nucleus                       69                      4  ...           5       60
+Peroxisome                     7                     14  ...          74       23
+Plastid                        5                     36  ...          61       55
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              1  0.144681
+Endoplasmic reticulum                  7  0.132308
+Extracellular                          8  0.317757
+Golgi apparatus                        0  0.123288
+Lysosome/Vacuole                       3  0.130952
+Mitochondrion                          4  0.150289
+Nucleus                                5  0.167224
+Peroxisome                             2  0.196809
+Plastid                                2  0.141860
+esm2_35M_functional
+Similarity.Geodesic_Clustering.Spectral
+ARI = 0.0107
+NMI = 0.0301
+Jaccard (macro) = 0.0980
+Mapping-based clustering accuracy = 0.1697
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.132   0.170 0.149      200
+Endoplasmic reticulum      0.113   0.070 0.086      200
+Extracellular              0.182   0.205 0.193      200
+Golgi apparatus            0.136   0.183 0.156      126
+Lysosome/Vacuole           0.179   0.150 0.163      200
+Mitochondrion              0.193   0.195 0.194      200
+Nucleus                    0.162   0.160 0.161      200
+Peroxisome                 0.200   0.176 0.187      159
+Plastid                    0.222   0.225 0.223      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              18  18  33  20  12  23  20  34  22
+Endoplasmic reticulum  14  21  30  17  16  24  30  28  20
+Extracellular          27  29  13   6  17  25  20  22  41
+Golgi apparatus        11  11  12   6  23  11  10  28  14
+Lysosome/Vacuole       18  30  22  13  17  18  21  39  22
+Mitochondrion           7  12  28  21  12  26  39  26  29
+Nucleus                21  15   8  14  26  32  16  38  30
+Peroxisome              7  15  12  28  17  23  11  14  32
+Plastid                 1  17  45  15  29  15  35  28  15
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     34                     18  ...          20       33
+Endoplasmic reticulum         28                     14  ...          17       30
+Extracellular                 22                     27  ...           6       13
+Golgi apparatus               28                     11  ...           6       12
+Lysosome/Vacuole              39                     18  ...          13       22
+Mitochondrion                 26                      7  ...          21       28
+Nucleus                       38                     21  ...          14        8
+Peroxisome                    14                      7  ...          28       12
+Plastid                       28                      1  ...          15       45
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              2  0.089189
+Endoplasmic reticulum                  6  0.080645
+Extracellular                          8  0.106771
+Golgi apparatus                        4  0.084559
+Lysosome/Vacuole                       7  0.093301
+Mitochondrion                          6  0.107438
+Nucleus                                7  0.090692
+Peroxisome                             3  0.103321
+Plastid                                2  0.125698
+esm2_150M_functional
+Similarity.Cosine_Clustering.Kmeans
+ARI = 0.0318
+NMI = 0.0732
+Jaccard (macro) = 0.1299
+Mapping-based clustering accuracy = 0.2136
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.186   0.065 0.096      200
+Endoplasmic reticulum      0.164   0.100 0.124      200
+Extracellular              0.507   0.190 0.276      200
+Golgi apparatus            0.000   0.000 0.000      126
+Lysosome/Vacuole           0.120   0.195 0.149      200
+Mitochondrion              0.206   0.100 0.135      200
+Nucleus                    0.316   0.180 0.229      200
+Peroxisome                 0.266   0.610 0.371      159
+Plastid                    0.195   0.485 0.278      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6  7   8
+true                                                    
+Cytoplasm              21  32  13  41  62  12   2  4  13
+Endoplasmic reticulum   8  51   5  21  69  17   4  5  20
+Extracellular          18  20  17  50  21  10  38  2  24
+Golgi apparatus        11  16   3  34  45   6   3  0   8
+Lysosome/Vacuole        4  52   8  39  62  15   4  2  14
+Mitochondrion          10  51   3  42  55  20   5  2  12
+Nucleus                36  12  16  57  51   3   7  5  13
+Peroxisome              1  97   5   9  35  10   0  1   1
+Plastid                 5  33   0  32  97   4  12  0  17
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     13                     13  ...          32       62
+Endoplasmic reticulum          5                     20  ...          51       69
+Extracellular                 17                     24  ...          20       21
+Golgi apparatus                3                      8  ...          16       45
+Lysosome/Vacuole               8                     14  ...          52       62
+Mitochondrion                  3                     12  ...          51       55
+Nucleus                       16                     13  ...          12       51
+Peroxisome                     5                      1  ...          97       35
+Plastid                        0                     17  ...          33       97
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              4  0.097638
+Endoplasmic reticulum                  4  0.109873
+Extracellular                          6  0.160338
+Golgi apparatus                        3  0.081535
+Lysosome/Vacuole                       1  0.101562
+Mitochondrion                          1  0.099415
+Nucleus                                0  0.129496
+Peroxisome                             1  0.227700
+Plastid                                4  0.161667
+esm2_150M_functional
+Similarity.Cosine_Clustering.Spectral
+ARI = -0.0012
+NMI = 0.0067
+Jaccard (macro) = 0.0770
+Mapping-based clustering accuracy = 0.1365
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.148   0.140 0.144      200
+Endoplasmic reticulum      0.141   0.140 0.140      200
+Extracellular              0.151   0.140 0.145      200
+Golgi apparatus            0.092   0.119 0.104      126
+Lysosome/Vacuole           0.142   0.130 0.136      200
+Mitochondrion              0.155   0.150 0.153      200
+Nucleus                    0.145   0.155 0.150      200
+Peroxisome                 0.118   0.119 0.119      159
+Plastid                    0.127   0.125 0.126      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              28  17  23  26  23  22  18  23  20
+Endoplasmic reticulum  25  22  17  22  24  28  20  24  18
+Extracellular          20  28  24  24  22  23  18  22  19
+Golgi apparatus        18  16  13   8  14   9  10  23  15
+Lysosome/Vacuole       21  26  26  27  24  20  21  19  16
+Mitochondrion          25  19  21  27  23  20  17  30  18
+Nucleus                12  23  17  31  25  32  17  22  21
+Peroxisome             19  13  19  25  17  19  19  11  17
+Plastid                21  22  23  24  25  26  21  19  19
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     28                     22  ...          18       23
+Endoplasmic reticulum         25                     28  ...          20       24
+Extracellular                 20                     23  ...          18       22
+Golgi apparatus               18                      9  ...          10       14
+Lysosome/Vacuole              21                     20  ...          21       24
+Mitochondrion                 25                     20  ...          17       23
+Nucleus                       12                     32  ...          17       25
+Peroxisome                    19                     19  ...          19       17
+Plastid                       21                     26  ...          21       25
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.077562
+Endoplasmic reticulum                  5  0.075472
+Extracellular                          1  0.078212
+Golgi apparatus                        7  0.077703
+Lysosome/Vacuole                       2  0.072829
+Mitochondrion                          7  0.082645
+Nucleus                                5  0.087193
+Peroxisome                             3  0.071839
+Plastid                                5  0.069705
+esm2_150M_functional
+Similarity.Euclidean_Clustering.Kmeans
+ARI = 0.0293
+NMI = 0.0620
+Jaccard (macro) = 0.1172
+Mapping-based clustering accuracy = 0.1953
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.153   0.110 0.128      200
+Endoplasmic reticulum      0.164   0.180 0.171      200
+Extracellular              0.303   0.215 0.251      200
+Golgi apparatus            0.034   0.008 0.013      126
+Lysosome/Vacuole           0.192   0.070 0.103      200
+Mitochondrion              0.178   0.185 0.181      200
+Nucleus                    0.196   0.245 0.218      200
+Peroxisome                 0.202   0.421 0.273      159
+Plastid                    0.208   0.300 0.246      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5  6   7   8
+true                                                    
+Cytoplasm              21  22  20  35  42  26  3  21  10
+Endoplasmic reticulum   6  11  36  24  45  41  7  16  14
+Extracellular          43  27  15  17  11  22  6  52   7
+Golgi apparatus         8  13  16  22  33  10  1  21   2
+Lysosome/Vacuole        8  11  31  35  35  47  2  17  14
+Mitochondrion          12   9  26  30  22  52  2  37  10
+Nucleus                37  24   9  49  26  17  7  25   6
+Peroxisome              4   3  49   8  14  67  1   8   5
+Plastid                 3  24  18  30  60  49  0  11   5
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     22                     20  ...          26       42
+Endoplasmic reticulum         11                     36  ...          41       45
+Extracellular                 27                     15  ...          22       11
+Golgi apparatus               13                     16  ...          10       33
+Lysosome/Vacuole              11                     31  ...          47       35
+Mitochondrion                  9                     26  ...          52       22
+Nucleus                       24                      9  ...          17       26
+Peroxisome                     3                     49  ...          67       14
+Plastid                       24                     18  ...          49       60
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              4  0.094170
+Endoplasmic reticulum                  4  0.101580
+Extracellular                          7  0.146067
+Golgi apparatus                        4  0.086614
+Lysosome/Vacuole                       5  0.097107
+Mitochondrion                          5  0.108559
+Nucleus                                3  0.122195
+Peroxisome                             5  0.158392
+Plastid                                4  0.140187
+esm2_150M_functional
+Similarity.Euclidean_Clustering.Spectral
+ARI = 0.0002
+NMI = 0.0110
+Jaccard (macro) = 0.1110
+Mapping-based clustering accuracy = 0.1223
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.119   1.000 0.213      200
+Endoplasmic reticulum      1.000   0.005 0.010      200
+Extracellular              0.000   0.000 0.000      200
+Golgi apparatus            1.000   0.008 0.016      126
+Lysosome/Vacuole           1.000   0.005 0.010      200
+Mitochondrion              0.000   0.000 0.000      200
+Nucleus                    1.000   0.005 0.010      200
+Peroxisome                 1.000   0.013 0.025      159
+Plastid                    0.000   0.000 0.000      200
+
+Contingency table (true x pred):
+pred                     0  1  2  3  4  5  6  7  8
+true                                              
+Cytoplasm              200  0  0  0  0  0  0  0  0
+Endoplasmic reticulum  197  1  0  0  1  1  0  0  0
+Extracellular          200  0  0  0  0  0  0  0  0
+Golgi apparatus        124  0  1  0  0  0  1  0  0
+Lysosome/Vacuole       199  0  0  0  0  0  0  1  0
+Mitochondrion          200  0  0  0  0  0  0  0  0
+Nucleus                199  0  0  0  0  0  0  0  1
+Peroxisome             157  0  0  2  0  0  0  0  0
+Plastid                200  0  0  0  0  0  0  0  0
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                    200                      0  ...           0        0
+Endoplasmic reticulum        197                      1  ...           0        1
+Extracellular                200                      0  ...           0        0
+Golgi apparatus              124                      0  ...           0        0
+Lysosome/Vacuole             199                      0  ...           0        0
+Mitochondrion                200                      0  ...           0        0
+Nucleus                      199                      0  ...           0        0
+Peroxisome                   157                      0  ...           2        0
+Plastid                      200                      0  ...           0        0
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.119332
+Endoplasmic reticulum                  0  0.117332
+Extracellular                          0  0.119332
+Golgi apparatus                        0  0.073897
+Lysosome/Vacuole                       0  0.118664
+Mitochondrion                          0  0.119332
+Nucleus                                0  0.118664
+Peroxisome                             0  0.093564
+Plastid                                0  0.119332
+esm2_150M_functional
+Similarity.Geodesic_Clustering.Kmeans
+ARI = 0.0776
+NMI = 0.1641
+Jaccard (macro) = 0.1801
+Mapping-based clustering accuracy = 0.2837
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.195   0.325 0.244      200
+Endoplasmic reticulum      0.319   0.225 0.264      200
+Extracellular              0.748   0.430 0.546      200
+Golgi apparatus            0.125   0.294 0.176      126
+Lysosome/Vacuole           0.426   0.130 0.199      200
+Mitochondrion              0.277   0.295 0.286      200
+Nucleus                    0.303   0.320 0.311      200
+Peroxisome                 0.255   0.151 0.190      159
+Plastid                    0.324   0.360 0.341      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              30   0   9   3  22  65  21   3  47
+Endoplasmic reticulum   8  45  14   8  15  43  20  15  32
+Extracellular          18  47   2  86   2  15   0  13  17
+Golgi apparatus        20   6   6   2   7  35   9   4  37
+Lysosome/Vacuole       14  39  16   8   8  52   9  26  28
+Mitochondrion          29   0  14   3  59  22  26   0  47
+Nucleus                64   0   3   4   8  58   9   0  54
+Peroxisome             11   2  24   1  44  16  56   0   5
+Plastid                17   2   6   0  48  27  72   0  28
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     65                      0  ...           9       21
+Endoplasmic reticulum         43                     45  ...          14       20
+Extracellular                 15                     47  ...           2        0
+Golgi apparatus               35                      6  ...           6        9
+Lysosome/Vacuole              52                     39  ...          16        9
+Mitochondrion                 22                      0  ...          14       26
+Nucleus                       58                      0  ...           3        9
+Peroxisome                    16                      2  ...          24       56
+Plastid                       27                      2  ...           6       72
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              5  0.138889
+Endoplasmic reticulum                  1  0.152027
+Extracellular                          3  0.375546
+Golgi apparatus                        8  0.096354
+Lysosome/Vacuole                       1  0.129139
+Mitochondrion                          4  0.166667
+Nucleus                                0  0.184438
+Peroxisome                             6  0.172308
+Plastid                                6  0.205714
+esm2_150M_functional
+Similarity.Geodesic_Clustering.Spectral
+ARI = 0.0140
+NMI = 0.0349
+Jaccard (macro) = 0.1048
+Mapping-based clustering accuracy = 0.1864
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.144   0.130 0.137      200
+Endoplasmic reticulum      0.232   0.205 0.218      200
+Extracellular              0.229   0.215 0.222      200
+Golgi apparatus            0.135   0.206 0.164      126
+Lysosome/Vacuole           0.178   0.240 0.204      200
+Mitochondrion              0.200   0.145 0.168      200
+Nucleus                    0.272   0.235 0.252      200
+Peroxisome                 0.134   0.145 0.139      159
+Plastid                    0.165   0.155 0.160      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              15  26  20  21  33  28  32   6  19
+Endoplasmic reticulum  17  25  17  25  30  17   9  41  19
+Extracellular          18  16  13  14  39  17   9  31  43
+Golgi apparatus         6  13   7  13  11  26  17  17  16
+Lysosome/Vacuole       12  14  20  13  48  13  23  29  28
+Mitochondrion          29  29  25  28  23  19  22  11  14
+Nucleus                15  17  17  21  37  27  47   3  16
+Peroxisome             13  24  23  22  25  23   4  15  10
+Plastid                20  16  30  31  24  22  10  24  23
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     26                      6  ...          20       21
+Endoplasmic reticulum         25                     41  ...          17       25
+Extracellular                 16                     31  ...          13       14
+Golgi apparatus               13                     17  ...           7       13
+Lysosome/Vacuole              14                     29  ...          20       13
+Mitochondrion                 29                     11  ...          25       28
+Nucleus                       17                      3  ...          17       21
+Peroxisome                    24                     15  ...          23       22
+Plastid                       16                     24  ...          30       31
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              6  0.093842
+Endoplasmic reticulum                  7  0.122024
+Extracellular                          8  0.124638
+Golgi apparatus                        5  0.089041
+Lysosome/Vacuole                       4  0.113744
+Mitochondrion                          0  0.091772
+Nucleus                                6  0.144172
+Peroxisome                             1  0.076190
+Plastid                                2  0.087719
+prot_bert_functional
+Similarity.Cosine_Clustering.Kmeans
+ARI = 0.0219
+NMI = 0.0568
+Jaccard (macro) = 0.1068
+Mapping-based clustering accuracy = 0.1864
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.333   0.050 0.087      200
+Endoplasmic reticulum      0.146   0.155 0.150      200
+Extracellular              0.286   0.280 0.283      200
+Golgi apparatus            0.153   0.103 0.123      126
+Lysosome/Vacuole           0.173   0.185 0.179      200
+Mitochondrion              0.176   0.095 0.123      200
+Nucleus                    0.138   0.270 0.182      200
+Peroxisome                 0.192   0.189 0.190      159
+Plastid                    0.220   0.320 0.261      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              12  44  11  20  22  10  27  21  33
+Endoplasmic reticulum  26  56  16  14  14   3  14  31  26
+Extracellular          11  64   3   2  15   0  56   8  41
+Golgi apparatus        18  32  13   8   9   7  20   7  12
+Lysosome/Vacuole       16  39  16  17  37   4  20  26  25
+Mitochondrion          25  47  10  19  23   1  20  29  26
+Nucleus                13  54  14  18  17   4  33  18  29
+Peroxisome             30  27   2   9  22   0   3  31  35
+Plastid                 5  29   0   1  55   1   3  42  64
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     10                     21  ...          12       33
+Endoplasmic reticulum          3                     31  ...          26       26
+Extracellular                  0                      8  ...          11       41
+Golgi apparatus                7                      7  ...          18       12
+Lysosome/Vacuole               4                     26  ...          16       25
+Mitochondrion                  1                     29  ...          25       26
+Nucleus                        4                     18  ...          13       29
+Peroxisome                     0                     31  ...          30       35
+Plastid                        1                     42  ...           5       64
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              1  0.080292
+Endoplasmic reticulum                  1  0.104478
+Extracellular                          6  0.164706
+Golgi apparatus                        0  0.068182
+Lysosome/Vacuole                       4  0.098143
+Mitochondrion                          1  0.086239
+Nucleus                                1  0.100372
+Peroxisome                             0  0.105263
+Plastid                                4  0.153203
+prot_bert_functional
+Similarity.Cosine_Clustering.Spectral
+ARI = 0.0001
+NMI = 0.0089
+Jaccard (macro) = 0.0764
+Mapping-based clustering accuracy = 0.1383
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.198   0.165 0.180      200
+Endoplasmic reticulum      0.148   0.150 0.149      200
+Extracellular              0.152   0.125 0.137      200
+Golgi apparatus            0.080   0.119 0.096      126
+Lysosome/Vacuole           0.152   0.130 0.140      200
+Mitochondrion              0.132   0.125 0.128      200
+Nucleus                    0.151   0.150 0.150      200
+Peroxisome                 0.104   0.132 0.117      159
+Plastid                    0.139   0.140 0.139      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              28  23  33  13  20  17  21  17  28
+Endoplasmic reticulum  21  25  22  14  26  26  30  15  21
+Extracellular          13  21  19  25  20  28  25  25  24
+Golgi apparatus        15  14   8  13  13  19  19  11  14
+Lysosome/Vacuole       22  22  16  26  27  18  22  24  23
+Mitochondrion          23  23  22  25  25  14  24  19  25
+Nucleus                23  30  14  14  28  29  19  17  26
+Peroxisome             19  16  15  16  21  23  17  16  16
+Plastid                23  25  18  25  21  28  26  21  13
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     33                     21  ...          20       17
+Endoplasmic reticulum         22                     30  ...          26       26
+Extracellular                 19                     25  ...          20       28
+Golgi apparatus                8                     19  ...          13       19
+Lysosome/Vacuole              16                     22  ...          27       18
+Mitochondrion                 22                     24  ...          25       14
+Nucleus                       14                     19  ...          28       29
+Peroxisome                    15                     17  ...          21       23
+Plastid                       18                     26  ...          21       28
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              2  0.098802
+Endoplasmic reticulum                  6  0.080429
+Extracellular                          5  0.074866
+Golgi apparatus                        5  0.061489
+Lysosome/Vacuole                       3  0.075362
+Mitochondrion                          3  0.072254
+Nucleus                                1  0.081301
+Peroxisome                             5  0.068047
+Plastid                                5  0.074866
+prot_bert_functional
+Similarity.Euclidean_Clustering.Kmeans
+ARI = 0.0249
+NMI = 0.0593
+Jaccard (macro) = 0.1071
+Mapping-based clustering accuracy = 0.1869
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.187   0.115 0.142      200
+Endoplasmic reticulum      0.149   0.150 0.150      200
+Extracellular              0.288   0.200 0.236      200
+Golgi apparatus            0.119   0.127 0.123      126
+Lysosome/Vacuole           0.172   0.215 0.191      200
+Mitochondrion              0.160   0.165 0.163      200
+Nucleus                    0.217   0.180 0.197      200
+Peroxisome                 0.152   0.252 0.190      159
+Plastid                    0.267   0.270 0.269      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              23  23  24  27  25  18  15  23  22
+Endoplasmic reticulum  42  14  17  31  17  12  18  19  30
+Extracellular           8  40  29   8  17  35  27   3  33
+Golgi apparatus        18  14  11  14   9  16  14  20  10
+Lysosome/Vacuole       31  11  17  25  43  13  24  22  14
+Mitochondrion          39  13  15  33  25  14  24  13  24
+Nucleus                20  19  22  24  19  23  36  19  18
+Peroxisome             40   2  13  34  36   3   4   3  24
+Plastid                42   3  54  10  59   1   4   1  26
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     23                     22  ...          23       24
+Endoplasmic reticulum         19                     30  ...          42       17
+Extracellular                  3                     33  ...           8       29
+Golgi apparatus               20                     10  ...          18       11
+Lysosome/Vacuole              22                     14  ...          31       17
+Mitochondrion                 13                     24  ...          39       15
+Nucleus                       19                     18  ...          20       22
+Peroxisome                     3                     24  ...          40       13
+Plastid                        1                     26  ...          42       54
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              7  0.076667
+Endoplasmic reticulum                  0  0.099762
+Extracellular                          1  0.133779
+Golgi apparatus                        7  0.087336
+Lysosome/Vacuole                       4  0.105651
+Mitochondrion                          0  0.091981
+Nucleus                                6  0.109091
+Peroxisome                             0  0.104712
+Plastid                                2  0.155172
+prot_bert_functional
+Similarity.Euclidean_Clustering.Spectral
+ARI = 0.0003
+NMI = 0.0100
+Jaccard (macro) = 0.1111
+Mapping-based clustering accuracy = 0.1211
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.119   1.000 0.213      200
+Endoplasmic reticulum      1.000   0.005 0.010      200
+Extracellular              0.000   0.000 0.000      200
+Golgi apparatus            1.000   0.008 0.016      126
+Lysosome/Vacuole           1.000   0.005 0.010      200
+Mitochondrion              0.000   0.000 0.000      200
+Nucleus                    0.000   0.000 0.000      200
+Peroxisome                 1.000   0.006 0.013      159
+Plastid                    0.000   0.000 0.000      200
+
+Contingency table (true x pred):
+pred                     0  1  2  3  4  5  6  7  8
+true                                              
+Cytoplasm              200  0  0  0  0  0  0  0  0
+Endoplasmic reticulum  198  1  0  0  0  0  0  1  0
+Extracellular          200  0  0  0  0  0  0  0  0
+Golgi apparatus        123  0  0  1  0  1  0  0  1
+Lysosome/Vacuole       198  0  0  0  1  0  1  0  0
+Mitochondrion          200  0  0  0  0  0  0  0  0
+Nucleus                200  0  0  0  0  0  0  0  0
+Peroxisome             158  0  1  0  0  0  0  0  0
+Plastid                200  0  0  0  0  0  0  0  0
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                    200                      0  ...           0        0
+Endoplasmic reticulum        198                      1  ...           0        0
+Extracellular                200                      0  ...           0        0
+Golgi apparatus              123                      0  ...           0        1
+Lysosome/Vacuole             198                      0  ...           0        0
+Mitochondrion                200                      0  ...           0        0
+Nucleus                      200                      0  ...           0        0
+Peroxisome                   158                      0  ...           1        0
+Plastid                      200                      0  ...           0        0
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              0  0.119261
+Endoplasmic reticulum                  0  0.117927
+Extracellular                          0  0.119261
+Golgi apparatus                        0  0.073214
+Lysosome/Vacuole                       0  0.117927
+Mitochondrion                          0  0.119261
+Nucleus                                0  0.119261
+Peroxisome                             0  0.094160
+Plastid                                0  0.119261
+prot_bert_functional
+Similarity.Geodesic_Clustering.Kmeans
+ARI = 0.0381
+NMI = 0.0764
+Jaccard (macro) = 0.1227
+Mapping-based clustering accuracy = 0.2083
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.198   0.085 0.119      200
+Endoplasmic reticulum      0.114   0.125 0.119      200
+Extracellular              0.273   0.300 0.286      200
+Golgi apparatus            0.126   0.095 0.109      126
+Lysosome/Vacuole           0.163   0.120 0.138      200
+Mitochondrion              0.177   0.125 0.147      200
+Nucleus                    0.210   0.245 0.226      200
+Peroxisome                 0.199   0.358 0.256      159
+Plastid                    0.319   0.410 0.359      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              24  28  24  20   8  27  20  32  17
+Endoplasmic reticulum  13  29  15  25   9  25  46  25  13
+Extracellular           9  31  19   3  30  38   8  60   2
+Golgi apparatus        25  16   6  11  12  12   8  23  13
+Lysosome/Vacuole       24  26  29  20  10  24  35  20  12
+Mitochondrion          24  28  28  25   7  14  36  31   7
+Nucleus                23  49  22   9  14  27  18  23  15
+Peroxisome              5  20  32  23   3  10  57   3   6
+Plastid                 0   6  82   5   2  42  59   3   1
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     17                     27  ...          20       24
+Endoplasmic reticulum         13                     25  ...          46       15
+Extracellular                  2                     38  ...           8       19
+Golgi apparatus               13                     12  ...           8        6
+Lysosome/Vacuole              12                     24  ...          35       29
+Mitochondrion                  7                     14  ...          36       28
+Nucleus                       15                     27  ...          18       22
+Peroxisome                     6                     10  ...          57       32
+Plastid                        1                     42  ...          59       82
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              7  0.082474
+Endoplasmic reticulum                  6  0.104308
+Extracellular                          7  0.166667
+Golgi apparatus                        0  0.100806
+Lysosome/Vacuole                       6  0.077434
+Mitochondrion                          6  0.079823
+Nucleus                                1  0.127604
+Peroxisome                             6  0.146530
+Plastid                                2  0.218667
+prot_bert_functional
+Similarity.Geodesic_Clustering.Spectral
+ARI = 0.0076
+NMI = 0.0223
+Jaccard (macro) = 0.0971
+Mapping-based clustering accuracy = 0.1757
+
+Per-class metrics (after mapping):
+                       precision  recall    f1  support
+Cytoplasm                  0.155   0.180 0.167      200
+Endoplasmic reticulum      0.137   0.160 0.148      200
+Extracellular              0.203   0.130 0.159      200
+Golgi apparatus            0.118   0.167 0.138      126
+Lysosome/Vacuole           0.186   0.160 0.172      200
+Mitochondrion              0.172   0.160 0.166      200
+Nucleus                    0.197   0.215 0.206      200
+Peroxisome                 0.135   0.132 0.134      159
+Plastid                    0.290   0.265 0.277      200
+
+Contingency table (true x pred):
+pred                    0   1   2   3   4   5   6   7   8
+true                                                     
+Cytoplasm              25   6  12  30  17  18  36  30  26
+Endoplasmic reticulum  17  13  23  32  21  20  29  29  16
+Extracellular          22  26  15  32  23  19  22  15  26
+Golgi apparatus        21   3  11  19   9   9  19  20  15
+Lysosome/Vacuole       22  13  20  30  32  21  19  25  18
+Mitochondrion          19  19  18  20  20  19  28  25  32
+Nucleus                27  14  23  25  13   9  24  43  22
+Peroxisome             10  16  21  28  18  15  30   6  15
+Plastid                15  18  12  17  19  53  25  25  16
+
+Contingency after mapping (true x pred_mapped):
+pred_mapped            Cytoplasm  Endoplasmic reticulum  ...  Peroxisome  Plastid
+true                                                     ...                     
+Cytoplasm                     36                     30  ...          12       18
+Endoplasmic reticulum         29                     32  ...          23       20
+Extracellular                 22                     32  ...          15       19
+Golgi apparatus               19                     19  ...          11        9
+Lysosome/Vacuole              19                     30  ...          20       21
+Mitochondrion                 28                     20  ...          18       19
+Nucleus                       24                     25  ...          23        9
+Peroxisome                    30                     28  ...          21       15
+Plastid                       25                     17  ...          12       53
+
+[9 rows x 9 columns]
+
+Best predicted cluster for each true class (by Jaccard):
+                       best_pred_cluster   jaccard
+Cytoplasm                              6  0.090909
+Endoplasmic reticulum                  3  0.079800
+Extracellular                          1  0.086093
+Golgi apparatus                        0  0.074205
+Lysosome/Vacuole                       4  0.094118
+Mitochondrion                          8  0.090395
+Nucleus                                7  0.114667
+Peroxisome                             6  0.083102
+Plastid                                5  0.160606
