@@ -29,15 +29,24 @@ class Similarity(Enum):
     Geodesic = "isomap"
 
 
+# similarity matrix is 1 - distance matrix
 def create_similarity_matrix(data, similarity):
+    D = None
     if similarity == Similarity.Geodesic:
-        isomap = sk.manifold.Isomap(n_neighbors=3, n_components=2)
-        isomap.fit_transform(data)
-        return isomap.dist_matrix_
+        n_neighbors = max(10, int(np.log(len(data))))
+        isomap = sk.manifold.Isomap(n_neighbors=n_neighbors, n_components=2)
+        isomap.fit(data)
+        D = isomap.dist_matrix_
     else:
-        return sc.spatial.distance.squareform(
+        D = sc.spatial.distance.squareform(
             sc.spatial.distance.pdist(data, metric=similarity.value)
         )
+
+    # normalize
+    D = D / np.max(D)
+
+    # convert distance to similarity
+    return 1 - D
 
 
 # Turn a similarity matrix into a heatmap
@@ -61,22 +70,25 @@ def visualize_similarity_matrix(m, sim_type):
     plt.show()
 
 
-def cluster(similarity_m, clustering, n):
+def cluster(similarity_m, clustering, n, data=None):
     match clustering:
         case Clustering.Spectral:
             spectral = sk.cluster.SpectralClustering(
-                n, affinity="precomputed", n_init=100, assign_labels="discretize"
+                n, affinity="precomputed", assign_labels="discretize"
             )
             return spectral.fit_predict(similarity_m)
         case Clustering.Hierarchical:
-            clusters = sk.cluster.AgglomerativeClustering(n_clusters=n, linkage="average").fit(
-                similarity_m
-            )
+            # hierarchical expects distance matrix
+            dist_m = 1 + similarity_m
+            clusters = sk.cluster.AgglomerativeClustering(
+                n_clusters=n, linkage="average"
+            ).fit(dist_m)
             return clusters.labels_
         case Clustering.Kmeans:
+            # this expects featues not similarity_m
             return sk.cluster.KMeans(
                 n_clusters=n, random_state=0, n_init="auto"
-            ).fit_predict(similarity_m)
+            ).fit_predict(data)
 
 
 """
@@ -87,8 +99,9 @@ and produce a data frame with the embeddings, clusters along with the similarity
 
 def cluster_data(data, similarity, clustering, n=None):
     similarity_matrix = create_similarity_matrix(data, similarity)
-    clusters = cluster(similarity_matrix, clustering, n)
+    clusters = cluster(similarity_matrix, clustering, n, data=data)
 
+    # similarity matrix meaingless for kmeans
     return data, clusters, similarity_matrix
 
 
@@ -163,7 +176,7 @@ def parse_SCOPe_file(embedding_func, outname, verbose=True):
 
 
 def parse_embeddings_and_type(in_file):
-    if 'parquet' in in_file:
+    if "parquet" in in_file:
         return pd.read_parquet(in_file, columns=["type", "embedding"])
 
     df = pd.read_csv(
@@ -173,6 +186,7 @@ def parse_embeddings_and_type(in_file):
     )
 
     return df
+
 
 def plot_umap_structural(df, tsne=False, scale=True):
     descriptor = "SCOPe Class"
@@ -199,9 +213,8 @@ def plot_umap_structural(df, tsne=False, scale=True):
         X_scaled = X
 
     if tsne:
-        reducer = TSNE(n_components=2, random_state=42, method='exact'
-        )
-        red_name = 'TSNE'
+        reducer = TSNE(n_components=2, random_state=42, method="exact")
+        red_name = "TSNE"
     else:
         reducer = umap.UMAP(
             n_neighbors=15,
@@ -211,7 +224,7 @@ def plot_umap_structural(df, tsne=False, scale=True):
             init="random",  # <-- use random instead of spectral
             n_jobs=-1,
         )
-        red_name = 'UMAP'
+        red_name = "UMAP"
     embedding_2d = reducer.fit_transform(X_scaled)
     print(pd.DataFrame(embedding_2d).head())
 
@@ -238,7 +251,7 @@ def plot_umap_structural(df, tsne=False, scale=True):
     plt.xlabel(f"{red_name}-1")
     plt.ylabel(f"{red_name}-2")
     plt.title(f"{red_name} of Protein Embeddings Colored by {descriptor}")
-    #plt.legend(title=descriptor, fontsize=9, loc='center left', bbox_to_anchor=(1.02, 0.5))
+    # plt.legend(title=descriptor, fontsize=9, loc='center left', bbox_to_anchor=(1.02, 0.5))
     plt.tight_layout()
     plt.show()
 
@@ -252,13 +265,13 @@ Given the data file, must be csv with headers "type" and "embedding" at least to
 
 def cluster_compare(df, n, embedding_type):
     sim_clust = [
-        # (Similarity.Cosine, Clustering.Hierarchical),
+        (Similarity.Cosine, Clustering.Hierarchical),
         (Similarity.Cosine, Clustering.Kmeans),
         (Similarity.Cosine, Clustering.Spectral),
-        # (Similarity.Euclidean, Clustering.Hierarchical),
+        (Similarity.Euclidean, Clustering.Hierarchical),
         (Similarity.Euclidean, Clustering.Kmeans),
         (Similarity.Euclidean, Clustering.Spectral),
-        # (Similarity.Geodesic, Clustering.Hierarchical),
+        (Similarity.Geodesic, Clustering.Hierarchical),
         (Similarity.Geodesic, Clustering.Kmeans),
         (Similarity.Geodesic, Clustering.Spectral),
     ]
@@ -266,34 +279,39 @@ def cluster_compare(df, n, embedding_type):
     embeddings = np.vstack(df["embedding"].to_numpy())
     # embeddings = PCA(n_components=2).fit_transform(embeddings)
     for similarity, clustering in sim_clust:
-        np.save(f'./data/{embedding_type}_{similarity}_{clustering}_embeddings.npy', embeddings)
+        np.save(
+            f"./data/{embedding_type}_{similarity}_{clustering}_embeddings.npy",
+            embeddings,
+        )
         (_data, clusters, _sim_m) = cluster_data(embeddings, similarity, clustering, n)
         labels = df["type"].to_numpy()
-        clustering_evaluation(f'{similarity}_{clustering}', clusters, labels)
+        clustering_evaluation(f"{similarity}_{clustering}", clusters, labels)
 
         # save cluster labels
-        np.save(f'./data/{embedding_type}_{similarity}_{clustering}_clusterlabels.npy', clusters)
+        np.save(
+            f"./data/{embedding_type}_{similarity}_{clustering}_clusterlabels.npy",
+            clusters,
+        )
 
 
 """
 Example with BOW
 """
 if __name__ == "__main__":
-    '''
+    """
     for embedding_name in ['bag_of_words', 'esm2_8M_embeddings', 'esm2_35M_embeddings', 'esm2_150M_embeddings', 'prot_bert_embeddings']:
         print(embedding_name)
         df = parse_embeddings_and_type(f"/home/jc4587/qcb551_proj/embeddings/{embedding_name}.csv")
         # Fix label collumn for esm embeddings
         if 'esm' in embedding_name or 'prot_bert' in embedding_name:
             df['type'] = [s[0] for s in df['type'].tolist()]
-    '''
-    for embedding_name in [#'bow', 
-                            'esm2_8M', 'esm2_35M', 'esm2_150M', 'prot_bert']:
-        embedding_name += '_functional'
+    """
+    for embedding_name in ["esm2_8M", "esm2_35M", "esm2_150M", "prot_bert"]:  #'bow',
+        embedding_name += "_functional"
         df = parse_embeddings_and_type(f"{embedding_name}.parquet")
-        #print(df['type'].value_counts())
+        # print(df['type'].value_counts())
 
-        N_PER_CLASS = 200 
+        N_PER_CLASS = 200
         # "Stratified fixed-size sample"
         sampled_df = (
             df.groupby("type", group_keys=False)
@@ -301,6 +319,6 @@ if __name__ == "__main__":
             .reset_index(drop=True)
         )
         # exclude this category since it only has 23 proteins
-        sampled_df = sampled_df[sampled_df['type'] != 'Cell membrane']
-        print(sampled_df['type'].value_counts())
-        cluster_compare(sampled_df, sampled_df['type'].nunique(), embedding_name)
+        sampled_df = sampled_df[sampled_df["type"] != "Cell membrane"]
+        print(sampled_df["type"].value_counts())
+        cluster_compare(sampled_df, sampled_df["type"].nunique(), embedding_name)
