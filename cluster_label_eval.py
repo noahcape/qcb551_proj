@@ -10,7 +10,8 @@ from sklearn.metrics import (
 from scipy.optimize import linear_sum_assignment
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os 
+import os
+import ast
 
 
 def safe_savefig(path, dpi=600):
@@ -239,21 +240,29 @@ def parse_embeddings_and_type(in_file):
 
 def eval_all():
     sim_clust = [
-        # (Similarity.Cosine, Clustering.Hierarchical),
+        (Similarity.Cosine, Clustering.Hierarchical),
         (Similarity.Cosine, Clustering.Kmeans),
         (Similarity.Cosine, Clustering.Spectral),
-        # (Similarity.Euclidean, Clustering.Hierarchical),
+        (Similarity.Euclidean, Clustering.Hierarchical),
         (Similarity.Euclidean, Clustering.Kmeans),
         (Similarity.Euclidean, Clustering.Spectral),
-        # (Similarity.Geodesic, Clustering.Hierarchical),
+        (Similarity.Geodesic, Clustering.Hierarchical),
         (Similarity.Geodesic, Clustering.Kmeans),
         (Similarity.Geodesic, Clustering.Spectral),
     ]
-
+    '''
     for embedding_name in ['bow', 'esm2_8M', 'esm2_35M', 'esm2_150M', 'prot_bert']:
         embedding_name += '_functional'
         df = parse_embeddings_and_type(f"{embedding_name}.parquet")
-        #print(df['type'].value_counts())
+    '''
+
+    # structural dataset
+    for embedding_name in ['bag_of_words', 'esm2_8M_embeddings', 'esm2_35M_embeddings', 'esm2_150M_embeddings', 'prot_bert_embeddings']:
+        #df = parse_embeddings_and_type(f"/home/jc4587/qcb551_proj/embeddings/{embedding_name}.csv")
+        df = parse_embeddings_and_type(f"{embedding_name}.csv") 
+        # Fix label collumn for esm embeddings
+        if 'esm' in embedding_name or 'prot_bert' in embedding_name:
+            df['type'] = [s[0] for s in df['type'].tolist()]
 
         N_PER_CLASS = 200 
         # "Stratified fixed-size sample"
@@ -271,6 +280,7 @@ def eval_all():
             print(embedding_name)
             clustering_evaluation(f'{similarity}_{clustering}', clusters, labels)
 
+# NOTE: run with > 1k_functional.out (for functional dataset) or > 1k_proteins.out (for structural)
 if __name__ == "__main__":
     eval_all()
 

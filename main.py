@@ -298,18 +298,19 @@ def cluster_compare(df, n, embedding_type):
 Example with BOW
 """
 if __name__ == "__main__":
-    """
+    '''
+    for embedding_name in ["bow", "esm2_8M", "esm2_35M", "esm2_150M", "prot_bert"]:
+        embedding_name += "_functional"
+        df = parse_embeddings_and_type(f"{embedding_name}.parquet")
+    '''
+
     for embedding_name in ['bag_of_words', 'esm2_8M_embeddings', 'esm2_35M_embeddings', 'esm2_150M_embeddings', 'prot_bert_embeddings']:
-        print(embedding_name)
-        df = parse_embeddings_and_type(f"/home/jc4587/qcb551_proj/embeddings/{embedding_name}.csv")
+        #df = parse_embeddings_and_type(f"/home/jc4587/qcb551_proj/embeddings/{embedding_name}.csv")
+        df = parse_embeddings_and_type(f"{embedding_name}.csv") 
+
         # Fix label collumn for esm embeddings
         if 'esm' in embedding_name or 'prot_bert' in embedding_name:
             df['type'] = [s[0] for s in df['type'].tolist()]
-    """
-    for embedding_name in ["esm2_8M", "esm2_35M", "esm2_150M", "prot_bert"]:  #'bow',
-        embedding_name += "_functional"
-        df = parse_embeddings_and_type(f"{embedding_name}.parquet")
-        # print(df['type'].value_counts())
 
         N_PER_CLASS = 200
         # "Stratified fixed-size sample"
@@ -318,7 +319,9 @@ if __name__ == "__main__":
             .apply(lambda x: x.sample(n=min(N_PER_CLASS, len(x)), random_state=42))
             .reset_index(drop=True)
         )
+        
         # exclude this category since it only has 23 proteins
         sampled_df = sampled_df[sampled_df["type"] != "Cell membrane"]
         print(sampled_df["type"].value_counts())
+        
         cluster_compare(sampled_df, sampled_df["type"].nunique(), embedding_name)
