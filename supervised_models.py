@@ -1,3 +1,10 @@
+"""
+File by Joseph
+
+Train and evaluate superivized models for classified protein classes of interest
+"""
+
+
 from main import parse_embeddings_and_type, plot_umap_structural
 import numpy as np
 from sklearn.manifold import TSNE
