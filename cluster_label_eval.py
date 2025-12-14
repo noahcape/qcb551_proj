@@ -1,3 +1,10 @@
+"""
+File by Jeffrey
+
+Computes accuracy metrics for the clustering compared to the true labels
+"""
+
+
 import numpy as np
 import pandas as pd
 from sklearn.metrics import (

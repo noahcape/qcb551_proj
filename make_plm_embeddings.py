@@ -1,3 +1,10 @@
+"""
+File by Maxwell
+
+Extract the embeddings from different pLM models
+"""
+
+
 from main import parse_SCOPe_file
 from transformers import EsmTokenizer, EsmModel, AutoTokenizer, AutoModel, BertTokenizer, BertModel
 import torch

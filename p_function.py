@@ -1,3 +1,10 @@
+"""
+File by Noah
+
+Process the functional data
+"""
+
+
 import pandas as pd
 
 DATA_FILE = "./Swissprot_Train_Validation_dataset.csv"

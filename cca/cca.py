@@ -1,3 +1,9 @@
+"""
+File by Jeffrey
+
+For computing CCA between two embeddings
+"""
+
 from sklearn.decomposition import PCA
 import numpy as np
 import matplotlib.pyplot as plt

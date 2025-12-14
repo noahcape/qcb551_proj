@@ -1,3 +1,9 @@
+"""
+File by Noah
+
+Functions for clustering data, processing structural data, creating distance/similarity matrices and visualizing embeddings.
+"""
+
 from enum import Enum
 import scipy as sc
 import sklearn as sk
@@ -15,7 +21,7 @@ from cluster_label_eval import clustering_evaluation
 
 
 SCOPe_fname = "./astral-scopedom-seqres-gd-sel-gs-bib-95-2.08.fa"  # "./astral-scopedom-seqres-gd-all-2.08-stable.fa"
-
+scope_out = "./scope_annotations.csv"
 
 class Clustering(Enum):
     Hierarchical = 1
